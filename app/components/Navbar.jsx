@@ -1,77 +1,98 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <div
-      className="
-        w-full flex items-center justify-between
-        px-10 py-4
-        bg-gradient-to-r from-[#020617]/90 via-[#020617]/70 to-[#020617]/90
-        backdrop-blur-xl
-        border-b border-white/5
-      "
-    >
-      {/* LEFT - BANNER LOGO */}
-      <Link href="/" className="flex items-center">
-        <Image
-          src="/bpl-banner.png"
-          alt="BPL Banner"
-          width={320}
-          height={100}
-          className="h-[60px] w-auto object-contain"
-          priority
-        />
-      </Link>
+    <div className="w-full bg-[#020617] border-b border-white/5 text-white">
 
-      {/* CENTER MENU */}
-      <div className="hidden md:flex items-center gap-10 text-sm font-medium text-gray-300">
+      {/* TOP BAR */}
+      <div className="flex items-center justify-between px-4 md:px-10 py-4">
 
-        <Link href="/" className="hover:text-yellow-400 transition">
-          Home
+        {/* LOGO */}
+        <Link href="/">
+          <Image
+            src="/bpl-banner.png"
+            alt="BPL"
+            width={200}
+            height={60}
+            className="h-[50px] w-auto"
+          />
         </Link>
 
-        <Link href="/teams" className="hover:text-yellow-400 transition">
-          Teams
-        </Link>
+        {/* DESKTOP MENU */}
+        <div className="hidden md:flex items-center gap-10 text-sm text-gray-300">
 
-        <Link href="/matches" className="hover:text-yellow-400 transition">
-          Matches
-        </Link>
+          <Link href="/" className="hover:text-yellow-400 transition">
+            Home
+          </Link>
 
-        <Link href="/sponsors" className="hover:text-yellow-400 transition">
-          Sponsors
-        </Link>
+          <Link href="/teams" className="hover:text-yellow-400 transition">
+            Teams
+          </Link>
 
-        <Link href="/registration" className="hover:text-yellow-400 transition">
-          Registration
-        </Link>
+          <Link href="/matches" className="hover:text-yellow-400 transition">
+            Matches
+          </Link>
 
-        <Link href="/location" className="hover:text-yellow-400 transition">
-          Location
-        </Link>
+          <Link href="/sponsors" className="hover:text-yellow-400 transition">
+            Sponsors
+          </Link>
 
-      </div>
+          <Link href="/registration" className="hover:text-yellow-400 transition">
+            Player List
+          </Link>
 
-      {/* RIGHT BUTTON */}
-      <div className="flex items-center">
-        <Link
-          href="/player-registration"
-          className="
-            px-8 py-2 rounded-full
-            bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-500
-            text-black font-semibold
-            whitespace-nowrap
-            hover:scale-105
-            transition
-            shadow-lg shadow-orange-500/20
-          "
+          <Link href="/location" className="hover:text-yellow-400 transition">
+            Location
+          </Link>
+
+        </div>
+
+        {/* RIGHT BUTTON */}
+        <div className="hidden md:block">
+          <Link
+            href="/player-registration"
+            className="px-6 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-semibold hover:scale-105 transition"
+          >
+            Player Registration Form
+          </Link>
+        </div>
+
+        {/* MOBILE MENU BUTTON */}
+        <button
+          className="md:hidden text-2xl"
+          onClick={() => setMenuOpen(!menuOpen)}
         >
-          Player Registration Form
-        </Link>
+          ☰
+        </button>
+
       </div>
+
+      {/* MOBILE MENU */}
+      {menuOpen && (
+        <div className="md:hidden flex flex-col items-center gap-4 pb-4 bg-[#020617]">
+
+          <Link href="/">Home</Link>
+          <Link href="/teams">Teams</Link>
+          <Link href="/matches">Matches</Link>
+          <Link href="/sponsors">Sponsors</Link>
+          <Link href="/registration">Player List</Link>
+          <Link href="/location">Location</Link>
+
+          <Link
+            href="/player-registration"
+            className="px-6 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-semibold"
+          >
+            Player Registration
+          </Link>
+
+        </div>
+      )}
     </div>
   );
 }

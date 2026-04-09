@@ -31,42 +31,26 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0a0f1e] via-[#0f1425] to-[#1a1f35] overflow-hidden relative">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0a0f1e] via-[#0f1425] to-[#1a1f35] relative">
 
       {/* NAVBAR */}
       <Navbar />
 
-      {/* FLAGS */}
-      <div className="absolute inset-0 flex justify-between items-center pointer-events-none">
-        <Image
-          src="/flag-left.png"
-          alt="Left Flag"
-          width={600}
-          height={300}
-          className="opacity-90 w-[40%] max-w-[500px] object-contain"
-        />
-        <Image
-          src="/flag-right.png"
-          alt="Right Flag"
-          width={600}
-          height={300}
-          className="opacity-90 w-[40%] max-w-[500px] object-contain"
-        />
-      </div>
-
       {/* HERO */}
-      <div className="flex flex-col items-center justify-center text-center flex-1 px-6 py-6 relative z-10">
+      <div className="flex flex-col items-center justify-center text-center flex-1 px-4 md:px-6 py-6 relative z-10">
 
+        {/* LOGO */}
         <Image
           src="/bpl-logo.png"
           alt="BPL Logo"
           width={600}
           height={600}
-          className="h-[200px] md:h-[260px] lg:h-[300px] w-auto object-contain drop-shadow-[0_0_40px_rgba(255,165,0,0.6)]"
+          className="h-[140px] md:h-[220px] lg:h-[300px] w-auto object-contain drop-shadow-[0_0_40px_rgba(255,165,0,0.6)]"
           priority
         />
 
-        <h1 className="mt-6 text-3xl md:text-5xl lg:text-6xl font-extrabold">
+        {/* TITLE */}
+        <h1 className="mt-6 text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
           <span className="bg-gradient-to-r from-white via-orange-200 to-yellow-400 bg-clip-text text-transparent">
             Bangalore Premier League
           </span>
@@ -75,17 +59,18 @@ export default function Home() {
           </span>
         </h1>
 
+        {/* SUBTEXT */}
         <p className="mt-4 text-gray-400 max-w-xl text-sm md:text-base">
           Experience the thrill of cricket like never before.
         </p>
+
       </div>
 
       {/* COUNTDOWN */}
       <div className="pb-6 w-full flex justify-center relative z-10">
 
-        <div className="flex items-center gap-4 md:gap-10 px-4 md:px-6 py-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 shadow-xl">
+        <div className="flex flex-wrap justify-center items-center gap-4 md:gap-10 px-4 md:px-6 py-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 shadow-xl">
 
-          {/* BOX COMPONENT */}
           {[
             { value: daysLeft, label: "DAYS" },
             { value: String(hoursLeft).padStart(2, "0"), label: "HRS" },
@@ -93,18 +78,20 @@ export default function Home() {
             { value: String(secondsLeft).padStart(2, "0"), label: "SEC" },
           ].map((item, i) => (
             <div key={i} className="text-center">
-              <div className="w-14 h-14 md:w-20 md:h-20 rounded-xl bg-black flex items-center justify-center text-white text-xl md:text-3xl font-bold leading-none tracking-wide tabular-nums">
+              <div className="w-12 h-12 md:w-20 md:h-20 rounded-xl bg-black flex items-center justify-center text-white text-lg md:text-3xl font-bold">
                 {item.value}
               </div>
-              <p className="text-[10px] md:text-xs text-gray-400 mt-1">{item.label}</p>
+              <p className="text-[10px] md:text-xs text-gray-400 mt-1">
+                {item.label}
+              </p>
             </div>
           ))}
 
-          {/* DIVIDER */}
+          {/* DIVIDER (DESKTOP ONLY) */}
           <div className="hidden md:block h-12 w-[2px] bg-gradient-to-b from-yellow-400 via-orange-500 to-yellow-400"></div>
 
           {/* DATE */}
-          <div className="text-center md:text-left">
+          <div className="text-center md:text-left mt-2 md:mt-0">
             <p className="text-xs text-gray-400 uppercase">Event Date</p>
             <p className="text-lg md:text-xl font-bold text-white">
               31 MAY 2026
