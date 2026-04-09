@@ -47,8 +47,17 @@ export default function Navbar() {
             Player List
           </Link>
 
+          {/* ✅ ADDED */}
+          <Link href="/updates" className="hover:text-yellow-400 transition">
+            Updates
+          </Link>
+
           <Link href="/location" className="hover:text-yellow-400 transition">
             Location
+          </Link>
+
+          <Link href="/contact" className="hover:text-yellow-400 transition">
+            Contact Us
           </Link>
 
         </div>
@@ -77,12 +86,19 @@ export default function Navbar() {
       {menuOpen && (
         <div className="md:hidden flex flex-col items-center gap-4 pb-4 bg-[#020617]">
 
-          <Link href="/">Home</Link>
-          <Link href="/teams">Teams</Link>
-          <Link href="/matches">Matches</Link>
-          <Link href="/sponsors">Sponsors</Link>
-          <Link href="/registration">Player List</Link>
-          <Link href="/location">Location</Link>
+          <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link href="/teams" onClick={() => setMenuOpen(false)}>Teams</Link>
+          <Link href="/matches" onClick={() => setMenuOpen(false)}>Matches</Link>
+          <Link href="/sponsors" onClick={() => setMenuOpen(false)}>Sponsors</Link>
+          <Link href="/registration" onClick={() => setMenuOpen(false)}>Player List</Link>
+
+          {/* ✅ ADDED */}
+          <Link href="/updates" onClick={() => setMenuOpen(false)}>
+            Updates
+          </Link>
+
+          <Link href="/location" onClick={() => setMenuOpen(false)}>Location</Link>
+          <Link href="/contact" onClick={() => setMenuOpen(false)}>Contact Us</Link>
 
           <Link
             href="/player-registration"

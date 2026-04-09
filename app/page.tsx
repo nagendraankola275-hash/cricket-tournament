@@ -31,10 +31,45 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0a0f1e] via-[#0f1425] to-[#1a1f35] relative">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0a0f1e] via-[#0f1425] to-[#1a1f35] relative overflow-hidden">
 
       {/* NAVBAR */}
       <Navbar />
+
+      {/* SIDE IMAGES */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+
+        {/* LEFT - GURUJI */}
+        <div className="absolute top-28 left-[50px] hidden md:block">
+          <img
+            src="/sringeri.png"
+            alt="Guruji"
+            className="
+              w-[110px] md:w-[140px] lg:w-[160px]
+              object-contain
+              opacity-85
+              rounded-lg
+              drop-shadow-[0_0_20px_rgba(255,140,0,0.25)]
+            "
+          />
+        </div>
+
+        {/* RIGHT - GANESHA */}
+        <div className="absolute top-28 right-[50px] hidden md:block">
+          <img
+            src="/ganesha.png"
+            alt="Ganesha"
+            className="
+              w-[120px] md:w-[150px] lg:w-[170px]
+              object-contain
+              opacity-95
+              rounded-lg
+              drop-shadow-[0_0_30px_rgba(255,200,0,0.35)]
+            "
+          />
+        </div>
+
+      </div>
 
       {/* HERO */}
       <div className="flex flex-col items-center justify-center text-center flex-1 px-4 md:px-6 py-6 relative z-10">
@@ -87,7 +122,7 @@ export default function Home() {
             </div>
           ))}
 
-          {/* DIVIDER (DESKTOP ONLY) */}
+          {/* DIVIDER */}
           <div className="hidden md:block h-12 w-[2px] bg-gradient-to-b from-yellow-400 via-orange-500 to-yellow-400"></div>
 
           {/* DATE */}
