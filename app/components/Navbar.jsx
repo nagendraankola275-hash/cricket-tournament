@@ -55,32 +55,22 @@ export default function Navbar() {
 
       </div>
 
-      {/* RIGHT BUTTONS */}
-      <div className="flex items-center gap-4">
-        <button
+      {/* RIGHT BUTTON */}
+      <div className="flex items-center">
+        <Link
+          href="/player-registration"
           className="
-            px-5 py-2 rounded-full
-            border border-white/20
-            text-gray-300
-            hover:bg-white/10
-            transition
-          "
-        >
-          Log In
-        </button>
-
-        <button
-          className="
-            px-6 py-2 rounded-full
+            px-8 py-2 rounded-full
             bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-500
             text-black font-semibold
+            whitespace-nowrap
             hover:scale-105
             transition
             shadow-lg shadow-orange-500/20
           "
         >
-          Register
-        </button>
+          Player Registration Form
+        </Link>
       </div>
     </div>
   );
