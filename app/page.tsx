@@ -31,25 +31,41 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="h-screen flex flex-col bg-gradient-to-br from-[#0a0f1e] via-[#0f1425] to-[#1a1f35] overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#0a0f1e] via-[#0f1425] to-[#1a1f35] overflow-hidden relative">
 
       {/* NAVBAR */}
       <Navbar />
 
-      {/* HERO */}
-      <div className="flex flex-col items-center justify-center text-center flex-1 px-6 py-6">
+      {/* FLAGS */}
+      <div className="absolute inset-0 flex justify-between items-center pointer-events-none">
+        <Image
+          src="/flag-left.png"
+          alt="Left Flag"
+          width={600}
+          height={300}
+          className="opacity-90 w-[40%] max-w-[500px] object-contain"
+        />
+        <Image
+          src="/flag-right.png"
+          alt="Right Flag"
+          width={600}
+          height={300}
+          className="opacity-90 w-[40%] max-w-[500px] object-contain"
+        />
+      </div>
 
-        {/* LOGO */}
+      {/* HERO */}
+      <div className="flex flex-col items-center justify-center text-center flex-1 px-6 py-6 relative z-10">
+
         <Image
           src="/bpl-logo.png"
           alt="BPL Logo"
           width={600}
           height={600}
-          className="h-[200px] md:h-[260px] lg:h-[300px] w-auto object-contain drop-shadow-2xl"
+          className="h-[200px] md:h-[260px] lg:h-[300px] w-auto object-contain drop-shadow-[0_0_40px_rgba(255,165,0,0.6)]"
           priority
         />
 
-        {/* TITLE */}
         <h1 className="mt-6 text-3xl md:text-5xl lg:text-6xl font-extrabold">
           <span className="bg-gradient-to-r from-white via-orange-200 to-yellow-400 bg-clip-text text-transparent">
             Bangalore Premier League
@@ -59,48 +75,30 @@ export default function Home() {
           </span>
         </h1>
 
-        {/* DESC */}
         <p className="mt-4 text-gray-400 max-w-xl text-sm md:text-base">
           Experience the thrill of cricket like never before.
         </p>
       </div>
 
-      {/* 🔥 COMPACT COUNTDOWN */}
-      <div className="pb-6 w-full flex justify-center">
+      {/* COUNTDOWN */}
+      <div className="pb-6 w-full flex justify-center relative z-10">
 
-        <div className="flex items-center gap-6 md:gap-10 px-6 py-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 shadow-xl">
+        <div className="flex items-center gap-4 md:gap-10 px-4 md:px-6 py-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 shadow-xl">
 
-          {/* DAYS */}
-          <div className="text-center">
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-black flex items-center justify-center text-white text-2xl md:text-3xl font-bold">
-              {daysLeft}
+          {/* BOX COMPONENT */}
+          {[
+            { value: daysLeft, label: "DAYS" },
+            { value: String(hoursLeft).padStart(2, "0"), label: "HRS" },
+            { value: String(minutesLeft).padStart(2, "0"), label: "MIN" },
+            { value: String(secondsLeft).padStart(2, "0"), label: "SEC" },
+          ].map((item, i) => (
+            <div key={i} className="text-center">
+              <div className="w-14 h-14 md:w-20 md:h-20 rounded-xl bg-black flex items-center justify-center text-white text-xl md:text-3xl font-bold leading-none tracking-wide tabular-nums">
+                {item.value}
+              </div>
+              <p className="text-[10px] md:text-xs text-gray-400 mt-1">{item.label}</p>
             </div>
-            <p className="text-xs text-gray-400 mt-1">DAYS</p>
-          </div>
-
-          {/* HOURS */}
-          <div className="text-center">
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-black flex items-center justify-center text-white text-2xl md:text-3xl font-bold">
-              {String(hoursLeft).padStart(2, "0")}
-            </div>
-            <p className="text-xs text-gray-400 mt-1">HRS</p>
-          </div>
-
-          {/* MINUTES */}
-          <div className="text-center">
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-black flex items-center justify-center text-white text-2xl md:text-3xl font-bold">
-              {String(minutesLeft).padStart(2, "0")}
-            </div>
-            <p className="text-xs text-gray-400 mt-1">MIN</p>
-          </div>
-
-          {/* SECONDS */}
-          <div className="text-center">
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-black flex items-center justify-center text-white text-2xl md:text-3xl font-bold">
-              {String(secondsLeft).padStart(2, "0")}
-            </div>
-            <p className="text-xs text-gray-400 mt-1">SEC</p>
-          </div>
+          ))}
 
           {/* DIVIDER */}
           <div className="hidden md:block h-12 w-[2px] bg-gradient-to-b from-yellow-400 via-orange-500 to-yellow-400"></div>
