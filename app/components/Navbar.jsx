@@ -43,11 +43,11 @@ export default function Navbar() {
             Sponsors
           </Link>
 
-          <Link href="/registration" className="hover:text-yellow-400 transition">
+          {/* ✅ FIXED HERE */}
+          <Link href="/player-list" className="hover:text-yellow-400 transition text-yellow-400">
             Player List
           </Link>
 
-          {/* ✅ ADDED */}
           <Link href="/updates" className="hover:text-yellow-400 transition">
             Updates
           </Link>
@@ -90,9 +90,12 @@ export default function Navbar() {
           <Link href="/teams" onClick={() => setMenuOpen(false)}>Teams</Link>
           <Link href="/matches" onClick={() => setMenuOpen(false)}>Matches</Link>
           <Link href="/sponsors" onClick={() => setMenuOpen(false)}>Sponsors</Link>
-          <Link href="/registration" onClick={() => setMenuOpen(false)}>Player List</Link>
 
-          {/* ✅ ADDED */}
+          {/* ✅ FIXED HERE */}
+          <Link href="/player-list" onClick={() => setMenuOpen(false)}>
+            Player List
+          </Link>
+
           <Link href="/updates" onClick={() => setMenuOpen(false)}>
             Updates
           </Link>
