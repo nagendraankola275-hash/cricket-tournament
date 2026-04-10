@@ -17,7 +17,7 @@ export default function UpdatesPage() {
         <div className="w-full max-w-2xl bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-xl">
 
           <p className="text-gray-300 text-lg">
-            • Players Auction Registration Form will be released soon.
+            • Players  Auction  Registration  Form  is  opened  Register  soon 
           </p>
 
         </div>

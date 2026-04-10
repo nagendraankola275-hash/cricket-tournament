@@ -3,12 +3,25 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const navItems = [
+    { name: "Home", path: "/" },
+    { name: "Teams", path: "/teams" },
+    { name: "Matches", path: "/matches" },
+    { name: "Sponsors", path: "/sponsors" },
+    { name: "Player List", path: "/player-list" },
+    { name: "Updates", path: "/updates" },
+    { name: "Location", path: "/location" },
+    { name: "Contact Us", path: "/contact" },
+  ];
 
   return (
-    <div className="w-full bg-[#020617] border-b border-white/5 text-white">
+    <div className="w-full bg-[#020617]/80 backdrop-blur-md border-b border-white/10 text-white sticky top-0 z-50">
 
       {/* TOP BAR */}
       <div className="flex items-center justify-between px-4 md:px-10 py-4">
@@ -20,45 +33,46 @@ export default function Navbar() {
             alt="BPL"
             width={200}
             height={60}
-            className="h-[50px] w-auto"
+            className="h-[50px] w-auto hover:scale-105 transition"
           />
         </Link>
 
         {/* DESKTOP MENU */}
-        <div className="hidden md:flex items-center gap-10 text-sm text-gray-300">
+        <div className="hidden md:flex items-center gap-10 text-sm font-medium">
 
-          <Link href="/" className="hover:text-yellow-400 transition">
-            Home
-          </Link>
+          {navItems.map((item) => {
+            const isActive = pathname === item.path;
 
-          <Link href="/teams" className="hover:text-yellow-400 transition">
-            Teams
-          </Link>
+            return (
+              <Link
+                key={item.name}
+                href={item.path}
+                className="relative group"
+              >
+                <span
+                  className={`transition ${
+                    isActive ? "text-yellow-400" : "text-gray-300"
+                  } group-hover:text-yellow-400`}
+                >
+                  {item.name}
+                </span>
 
-          <Link href="/matches" className="hover:text-yellow-400 transition">
-            Matches
-          </Link>
-
-          <Link href="/sponsors" className="hover:text-yellow-400 transition">
-            Sponsors
-          </Link>
-
-          {/* ✅ FIXED HERE */}
-          <Link href="/player-list" className="hover:text-yellow-400 transition text-yellow-400">
-            Player List
-          </Link>
-
-          <Link href="/updates" className="hover:text-yellow-400 transition">
-            Updates
-          </Link>
-
-          <Link href="/location" className="hover:text-yellow-400 transition">
-            Location
-          </Link>
-
-          <Link href="/contact" className="hover:text-yellow-400 transition">
-            Contact Us
-          </Link>
+                {/* 🔥 UNDERLINE ANIMATION */}
+                <span
+                  className={`
+                    absolute left-0 -bottom-1 h-[2px] w-full
+                    bg-gradient-to-r from-yellow-400 to-orange-500
+                    transition-transform duration-300 origin-left
+                    ${
+                      isActive
+                        ? "scale-x-100"
+                        : "scale-x-0 group-hover:scale-x-100"
+                    }
+                  `}
+                ></span>
+              </Link>
+            );
+          })}
 
         </div>
 
@@ -66,7 +80,13 @@ export default function Navbar() {
         <div className="hidden md:block">
           <Link
             href="/player-registration"
-            className="px-6 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-semibold hover:scale-105 transition"
+            className="
+              px-6 py-2 rounded-full
+              bg-gradient-to-r from-yellow-400 to-orange-500
+              text-black font-semibold
+              hover:scale-105 transition
+              shadow-[0_0_20px_rgba(255,165,0,0.4)]
+            "
           >
             Player Registration Form
           </Link>
@@ -86,22 +106,16 @@ export default function Navbar() {
       {menuOpen && (
         <div className="md:hidden flex flex-col items-center gap-4 pb-4 bg-[#020617]">
 
-          <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
-          <Link href="/teams" onClick={() => setMenuOpen(false)}>Teams</Link>
-          <Link href="/matches" onClick={() => setMenuOpen(false)}>Matches</Link>
-          <Link href="/sponsors" onClick={() => setMenuOpen(false)}>Sponsors</Link>
-
-          {/* ✅ FIXED HERE */}
-          <Link href="/player-list" onClick={() => setMenuOpen(false)}>
-            Player List
-          </Link>
-
-          <Link href="/updates" onClick={() => setMenuOpen(false)}>
-            Updates
-          </Link>
-
-          <Link href="/location" onClick={() => setMenuOpen(false)}>Location</Link>
-          <Link href="/contact" onClick={() => setMenuOpen(false)}>Contact Us</Link>
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.path}
+              onClick={() => setMenuOpen(false)}
+              className="text-gray-300 hover:text-yellow-400 transition"
+            >
+              {item.name}
+            </Link>
+          ))}
 
           <Link
             href="/player-registration"

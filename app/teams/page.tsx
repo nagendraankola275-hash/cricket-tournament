@@ -25,12 +25,12 @@ export default function TeamsPage() {
       description: "A balanced squad with strong match-winning performers.",
     },
     {
-       id: 3,
-       name: "KVS Cricketers",
-       logo: "/team3-new.png",   // ✅ FIXED HERE
-       owner: "KVS Akshay",
-       ownerImage: "/owner3.png",
-       description: "Energetic and aggressive team with strong leadership.",
+      id: 3,
+      name: "KVS Cricketers",
+      logo: "/team3-new.png",
+      owner: "KVS Akshay",
+      ownerImage: "/owner3.png",
+      description: "Energetic and aggressive team with strong leadership.",
     },
     {
       id: 4,
@@ -42,7 +42,7 @@ export default function TeamsPage() {
     },
   ];
 
-  // 👉 IF TEAM SELECTED → SHOW FULL PAGE
+  // 👉 TEAM DETAIL PAGE
   if (selectedTeam) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-[#020617] to-[#0f172a] text-white px-6 py-12">
@@ -55,7 +55,6 @@ export default function TeamsPage() {
           ← Back to Teams
         </button>
 
-        {/* TEAM SECTION */}
         <div className="max-w-4xl mx-auto text-center">
 
           {/* TEAM LOGO */}
@@ -73,7 +72,10 @@ export default function TeamsPage() {
           </h1>
 
           {/* OWNER CARD */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-xl">
+          <div className="
+            bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-xl
+            transition duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)]
+          ">
 
             <Image
               src={selectedTeam.ownerImage}
@@ -89,14 +91,13 @@ export default function TeamsPage() {
               {selectedTeam.owner}
             </h2>
 
-            {/* INTRO */}
             <p className="text-gray-300 mt-6 leading-relaxed">
               {selectedTeam.description}
             </p>
 
           </div>
 
-          {/* FUTURE PLAYERS SECTION */}
+          {/* FUTURE PLAYERS */}
           <div className="mt-10 text-gray-500">
             Players will be displayed here soon...
           </div>
@@ -107,7 +108,7 @@ export default function TeamsPage() {
     );
   }
 
-  // 👉 DEFAULT TEAMS GRID
+  // 👉 TEAMS GRID
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#020617] to-[#0f172a] text-white px-8 py-12">
 
@@ -128,30 +129,38 @@ export default function TeamsPage() {
               rounded-2xl
               p-6
               flex flex-col items-center
-              hover:scale-105 hover:border-yellow-400/40
-              hover:shadow-[0_0_30px_rgba(255,165,0,0.4)]
-              transition duration-300
+
+              transition-all duration-300 ease-in-out
+              hover:-translate-y-2
+              hover:shadow-[0_15px_40px_rgba(0,0,0,0.6)]
+              hover:border-yellow-400/40
+              active:scale-95
+
               cursor-pointer
+              group
             "
           >
 
-            {/* GLOW */}
-            {index < 2 && (
+            {/* 🔥 GLOW FIXED (NOW 3 TEAMS) */}
+            {index < 3 && (
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-yellow-400/10 to-orange-500/10 blur-xl"></div>
             )}
 
+            {/* LOGO */}
             <Image
               src={team.logo}
               alt={team.name}
               width={140}
               height={140}
-              className="mb-4"
+              className="mb-4 transition duration-300 group-hover:scale-105"
             />
 
+            {/* NAME */}
             <h2 className="text-lg font-semibold text-center">
               {team.name}
             </h2>
 
+            {/* OWNER */}
             <p className="text-sm text-gray-400 mt-2 italic">
               Owner: <span className="text-yellow-400">{team.owner}</span>
             </p>
