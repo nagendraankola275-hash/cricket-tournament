@@ -6,15 +6,13 @@ import { useState, useEffect } from "react";
 
 export default function Home() {
 
-  // 🔥 FIXED COUNTDOWN FUNCTION (NO 00 FLASH)
+  // 🔥 COUNTDOWN FUNCTION
   const getTimeLeft = () => {
     const targetDate = new Date("2026-05-31T00:00:00");
     const now = new Date();
     const diff = targetDate.getTime() - now.getTime();
 
-    if (diff <= 0) {
-      return { d: 0, h: 0, m: 0, s: 0 };
-    }
+    if (diff <= 0) return { d: 0, h: 0, m: 0, s: 0 };
 
     return {
       d: Math.floor(diff / (1000 * 60 * 60 * 24)),
@@ -24,10 +22,14 @@ export default function Home() {
     };
   };
 
-  // ✅ STATE (FIXED)
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft());
+  // ✅ FIXED STATE (NO HYDRATION ISSUE)
+  const [timeLeft, setTimeLeft] = useState({
+    d: 0,
+    h: 0,
+    m: 0,
+    s: 0,
+  });
 
-  // 🔁 ROTATOR STATE
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const teams = [
@@ -37,11 +39,15 @@ export default function Home() {
     { name: "Golden Eagles", logo: "/team4.png", owner: "/team4.png" },
   ];
 
-  // ⏱ COUNTDOWN UPDATE (NO DELAY)
+  // ⏱ COUNTDOWN (FIXED)
   useEffect(() => {
-    const interval = setInterval(() => {
+    const update = () => {
       setTimeLeft(getTimeLeft());
-    }, 1000);
+    };
+
+    update(); // run immediately after mount
+
+    const interval = setInterval(update, 1000);
 
     return () => clearInterval(interval);
   }, []);
@@ -95,14 +101,38 @@ export default function Home() {
           Experience the thrill of cricket like never before.
         </p>
 
+        {/* 🔥 MOBILE ROTATOR */}
+        <div className="md:hidden mt-8 flex flex-col items-center text-center space-y-3">
+
+          <Image
+            src={teams[currentIndex].logo}
+            alt="team"
+            width={90}
+            height={90}
+            className="object-contain"
+          />
+
+          <Image
+            src={teams[currentIndex].owner}
+            alt="owner"
+            width={60}
+            height={60}
+            className="rounded-full border-2 border-yellow-400"
+          />
+
+          <p className="text-sm font-semibold text-white">
+            {teams[currentIndex].name}
+          </p>
+
+        </div>
+
       </div>
 
-      {/* 🔥 BIG ROTATOR (PERFECT SIZE) */}
-      <div className="absolute left-[40px] bottom-[120px] z-10 w-[200px] hidden md:block">
+      {/* 🔥 DESKTOP ROTATOR */}
+      <div className="hidden md:block absolute left-[40px] bottom-[120px] z-10 w-[200px]">
 
         <div className="flex flex-col items-center text-center space-y-3">
 
-          {/* TEAM LOGO */}
           <Image
             src={teams[currentIndex].logo}
             alt="team"
@@ -111,7 +141,6 @@ export default function Home() {
             className="object-contain drop-shadow-[0_0_15px_rgba(255,165,0,0.5)]"
           />
 
-          {/* OWNER IMAGE */}
           <Image
             src={teams[currentIndex].owner}
             alt="owner"
@@ -120,7 +149,6 @@ export default function Home() {
             className="rounded-full border-2 border-yellow-400 shadow-lg"
           />
 
-          {/* TEAM NAME */}
           <p className="text-sm md:text-base font-semibold text-white">
             {teams[currentIndex].name}
           </p>
@@ -129,7 +157,7 @@ export default function Home() {
 
       </div>
 
-      {/* 🔥 PREMIUM COUNTDOWN */}
+      {/* 🔥 COUNTDOWN */}
       <div className="pb-8 w-full flex justify-center relative z-10">
 
         <div className="
@@ -168,10 +196,8 @@ export default function Home() {
             </div>
           ))}
 
-          {/* DIVIDER */}
           <div className="hidden md:block h-14 w-[2px] bg-gradient-to-b from-yellow-400 via-orange-500 to-yellow-400"></div>
 
-          {/* DATE */}
           <div className="text-center md:text-left">
             <p className="text-xs text-gray-400 uppercase">Event Date</p>
             <p className="text-xl font-bold text-white">
