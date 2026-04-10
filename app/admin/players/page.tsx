@@ -4,19 +4,26 @@ import { useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
 
-export default function AdminPlayersPage() {
+// ✅ TYPE FIX
+type Player = {
+  name: string;
+  phone: string;
+  role: string;
+};
 
-  // 🔐 AUTH STATE (TOP)
+export default function AdminPlayersPage() {
+  // 🔐 AUTH STATE
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [inputPassword, setInputPassword] = useState("");
 
-  // ✅ ADMIN FORM STATE (ALSO TOP — IMPORTANT)
-  const [players, setPlayers] = useState([
+  const ADMIN_PASSWORD = "Naags@3570";
+
+  // ✅ PLAYER STATE WITH TYPE
+  const [players, setPlayers] = useState<Player[]>([
     { name: "", phone: "", role: "" },
   ]);
 
-  const ADMIN_PASSWORD = "Naags@3570";
-
+  // 🔑 LOGIN HANDLER
   const handleLogin = () => {
     if (inputPassword === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
@@ -25,16 +32,23 @@ export default function AdminPlayersPage() {
     }
   };
 
-  const handleChange = (index: number, field: string, value: string) => {
+  // ✏️ HANDLE INPUT CHANGE (FIXED TYPE)
+  const handleChange = (
+    index: number,
+    field: keyof Player,
+    value: string
+  ) => {
     const updated = [...players];
     updated[index][field] = value;
     setPlayers(updated);
   };
 
+  // ➕ ADD PLAYER FIELD
   const addPlayerField = () => {
     setPlayers([...players, { name: "", phone: "", role: "" }]);
   };
 
+  // 💾 SAVE TO FIREBASE
   const handleSubmit = async () => {
     try {
       for (let player of players) {
@@ -48,14 +62,13 @@ export default function AdminPlayersPage() {
 
       alert("Players added successfully ✅");
       setPlayers([{ name: "", phone: "", role: "" }]);
-
     } catch (error) {
       console.error(error);
       alert("Error adding players ❌");
     }
   };
 
-  // 🔒 CONDITIONAL RENDER AFTER HOOKS
+  // 🔒 LOGIN SCREEN
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#020617] text-white">
@@ -81,7 +94,7 @@ export default function AdminPlayersPage() {
     );
   }
 
-  // ✅ MAIN ADMIN UI
+  // ✅ ADMIN PANEL UI
   return (
     <div className="min-h-screen bg-[#020617] text-white px-6 py-12">
 
@@ -92,14 +105,19 @@ export default function AdminPlayersPage() {
       <div className="max-w-3xl mx-auto space-y-6">
 
         {players.map((player, index) => (
-          <div key={index} className="bg-[#111827] p-4 rounded-xl border border-white/10">
+          <div
+            key={index}
+            className="bg-[#111827] p-4 rounded-xl border border-white/10"
+          >
             <div className="grid md:grid-cols-3 gap-4">
 
               <input
                 type="text"
                 placeholder="Player Name"
                 value={player.name}
-                onChange={(e) => handleChange(index, "name", e.target.value)}
+                onChange={(e) =>
+                  handleChange(index, "name", e.target.value)
+                }
                 className="p-3 rounded bg-[#1f2937]"
               />
 
@@ -107,13 +125,17 @@ export default function AdminPlayersPage() {
                 type="tel"
                 placeholder="Phone Number"
                 value={player.phone}
-                onChange={(e) => handleChange(index, "phone", e.target.value)}
+                onChange={(e) =>
+                  handleChange(index, "phone", e.target.value)
+                }
                 className="p-3 rounded bg-[#1f2937]"
               />
 
               <select
                 value={player.role}
-                onChange={(e) => handleChange(index, "role", e.target.value)}
+                onChange={(e) =>
+                  handleChange(index, "role", e.target.value)
+                }
                 className="p-3 rounded bg-[#1f2937]"
               >
                 <option value="">Select Role</option>
@@ -127,6 +149,7 @@ export default function AdminPlayersPage() {
           </div>
         ))}
 
+        {/* ➕ ADD BUTTON */}
         <button
           onClick={addPlayerField}
           className="w-full py-3 bg-blue-500 rounded"
@@ -134,6 +157,7 @@ export default function AdminPlayersPage() {
           + Add Player
         </button>
 
+        {/* 🚀 SUBMIT */}
         <button
           onClick={handleSubmit}
           className="w-full py-3 bg-yellow-400 text-black rounded"
