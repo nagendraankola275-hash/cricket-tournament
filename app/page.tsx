@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Navbar from "./components/Navbar";
-import Link from "next/link";
 import { useState, useEffect } from "react";
 
 export default function Home() {
@@ -288,97 +287,6 @@ export default function Home() {
         </div>
       </div>
 
-      {isTouchDevice && (
-        <div className="relative z-10 px-4 pb-12 md:hidden">
-          <div className="poster-card poster-glow mx-auto max-w-sm overflow-hidden rounded-[30px] border border-white/10 bg-[#08111f]/85 shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
-            <div className="relative px-5 pb-6 pt-5">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(239,68,68,0.28),transparent_38%),radial-gradient(circle_at_top_right,rgba(59,130,246,0.28),transparent_36%),linear-gradient(135deg,rgba(10,15,28,0.92),rgba(14,22,40,0.84))]" />
-
-              <div className="relative flex items-center justify-between">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/70">
-                  Matchday Look
-                </p>
-                <span className="rounded-full border border-white/10 bg-white/8 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-yellow-300">
-                  Live Energy
-                </span>
-              </div>
-
-              <div className="relative mt-6 flex items-center justify-between gap-3">
-                <div className="poster-side flex-1 rounded-[24px] border border-red-400/20 bg-gradient-to-b from-red-500/18 to-transparent px-3 py-4 text-center">
-                  <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border border-red-400/30 bg-black/20">
-                    <Image
-                      src="/team2-new.png"
-                      alt="Featured team"
-                      width={74}
-                      height={74}
-                      className="object-contain"
-                    />
-                  </div>
-                  <p className="mt-3 text-sm font-bold uppercase tracking-[0.16em] text-white">
-                    Fire Side
-                  </p>
-                  <p className="mt-1 text-xs text-red-200/80">
-                    High-pressure chase
-                  </p>
-                </div>
-
-                <div className="relative flex flex-col items-center">
-                  <span className="text-xs font-semibold uppercase tracking-[0.35em] text-white/40">
-                    VS
-                  </span>
-                  <div className="mt-2 h-20 w-px bg-gradient-to-b from-red-400 via-yellow-300 to-blue-400" />
-                </div>
-
-                <div className="poster-side flex-1 rounded-[24px] border border-blue-400/20 bg-gradient-to-b from-blue-500/18 to-transparent px-3 py-4 text-center">
-                  <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border border-blue-400/30 bg-black/20">
-                    <Image
-                      src="/team3-new.png"
-                      alt="Featured challenger"
-                      width={74}
-                      height={74}
-                      className="object-contain"
-                    />
-                  </div>
-                  <p className="mt-3 text-sm font-bold uppercase tracking-[0.16em] text-white">
-                    Ice Side
-                  </p>
-                  <p className="mt-1 text-xs text-blue-200/80">
-                    Big-match control
-                  </p>
-                </div>
-              </div>
-
-              <div className="relative mt-6 rounded-[24px] border border-white/10 bg-black/20 px-4 py-4 text-center">
-                <p className="text-2xl font-extrabold leading-tight text-white">
-                  Stadium Lights.
-                  <span className="block bg-gradient-to-r from-red-400 via-yellow-300 to-blue-400 bg-clip-text text-transparent">
-                    Poster Night.
-                  </span>
-                </p>
-                <p className="mt-2 text-sm leading-6 text-gray-300">
-                  The home screen now carries a cinematic cricket-poster section instead of an empty gap.
-                </p>
-
-                <div className="mt-4 grid grid-cols-2 gap-3">
-                  <Link
-                    href="/updates"
-                    className="rounded-full border border-white/10 bg-white/8 px-4 py-3 text-center text-sm font-semibold text-white"
-                  >
-                    View Updates
-                  </Link>
-
-                  <Link
-                    href="/player-registration"
-                    className="rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-4 py-3 text-center text-sm font-semibold text-black"
-                  >
-                    Register
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

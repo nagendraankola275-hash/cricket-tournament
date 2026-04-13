@@ -133,32 +133,6 @@ body {
   will-change: transform;
 }
 
-@keyframes posterGlow {
-  0%, 100% {
-    box-shadow: 0 0 0 rgba(239, 68, 68, 0), 0 0 0 rgba(59, 130, 246, 0);
-  }
-  50% {
-    box-shadow: -18px 0 45px rgba(239, 68, 68, 0.16), 18px 0 45px rgba(59, 130, 246, 0.16);
-  }
-}
-
-@keyframes posterFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
-}
-
-.poster-glow {
-  animation: posterGlow 4.8s ease-in-out infinite;
-}
-
-.poster-side {
-  animation: posterFloat 4s ease-in-out infinite;
-}
-
 /* ========================= */
 /* 📱 OPTIONAL SAFETY FIX */
 /* ========================= */
