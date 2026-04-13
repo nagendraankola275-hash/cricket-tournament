@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 
 export default function Home() {
 
-  // 🔥 COUNTDOWN FUNCTION
   const getTimeLeft = () => {
     const targetDate = new Date("2026-05-31T00:00:00");
     const now = new Date();
@@ -22,7 +21,6 @@ export default function Home() {
     };
   };
 
-  // ✅ FIXED STATE (NO HYDRATION ISSUE)
   const [timeLeft, setTimeLeft] = useState({
     d: 0,
     h: 0,
@@ -39,20 +37,16 @@ export default function Home() {
     { name: "Golden Eagles", logo: "/team4.png", owner: "/team4.png" },
   ];
 
-  // ⏱ COUNTDOWN (FIXED)
   useEffect(() => {
     const update = () => {
       setTimeLeft(getTimeLeft());
     };
 
-    update(); // run immediately after mount
-
+    update();
     const interval = setInterval(update, 1000);
-
     return () => clearInterval(interval);
   }, []);
 
-  // 🔁 ROTATOR
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % teams.length);
@@ -69,14 +63,14 @@ export default function Home() {
 
       {/* SIDE IMAGES */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <img src="/sringeri.png" className="absolute top-28 left-[60px] w-[140px] opacity-70 hidden md:block" />
-        <img src="/ganesha.png" className="absolute top-28 right-[60px] w-[150px] opacity-80 hidden md:block" />
+        {/* ✅ ONLY CHANGE: added side-image */}
+        <img src="/sringeri.png" className="side-image absolute top-28 left-[60px] w-[140px] opacity-70 hidden md:block" />
+        <img src="/ganesha.png" className="side-image absolute top-28 right-[60px] w-[150px] opacity-80 hidden md:block" />
       </div>
 
       {/* HERO */}
       <div className="flex flex-col items-center justify-center text-center flex-1 relative z-10 px-4">
 
-        {/* LOGO */}
         <Image
           src="/bpl-logo.png"
           alt="BPL"
@@ -86,7 +80,6 @@ export default function Home() {
           priority
         />
 
-        {/* TITLE */}
         <h1 className="mt-8 text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
           <span className="bg-gradient-to-r from-white via-yellow-300 to-orange-400 bg-clip-text text-transparent">
             Bangalore Premier League
@@ -96,12 +89,11 @@ export default function Home() {
           </span>
         </h1>
 
-        {/* SUBTEXT */}
         <p className="mt-4 text-gray-400 text-sm md:text-base">
           Experience the thrill of cricket like never before.
         </p>
 
-        {/* 🔥 MOBILE ROTATOR */}
+        {/* MOBILE ROTATOR */}
         <div className="md:hidden mt-8 flex flex-col items-center text-center space-y-3">
 
           <Image
@@ -128,8 +120,9 @@ export default function Home() {
 
       </div>
 
-      {/* 🔥 DESKTOP ROTATOR */}
-      <div className="hidden md:block absolute left-[40px] bottom-[120px] z-10 w-[200px]">
+      {/* DESKTOP ROTATOR */}
+      {/* ✅ ONLY CHANGE: added desktop-rotator */}
+      <div className="hidden md:block absolute left-[40px] bottom-[120px] z-10 w-[200px] desktop-rotator">
 
         <div className="flex flex-col items-center text-center space-y-3">
 
@@ -157,7 +150,7 @@ export default function Home() {
 
       </div>
 
-      {/* 🔥 COUNTDOWN */}
+      {/* COUNTDOWN */}
       <div className="pb-8 w-full flex justify-center relative z-10">
 
         <div className="
