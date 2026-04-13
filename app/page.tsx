@@ -361,6 +361,16 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          <div className="mx-auto mt-6 max-w-4xl overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-2 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.24)]">
+            <Image
+              src="/cartoon-character-playing-cricket-game-field.jpg"
+              alt="Cartoon cricket banner"
+              width={1600}
+              height={900}
+              className="h-auto w-full rounded-[24px] object-cover"
+            />
+          </div>
         </div>
       )}
 
