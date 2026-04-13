@@ -362,14 +362,29 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mx-auto mt-6 max-w-4xl overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-2 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.24)]">
+          <div className="relative mx-auto mt-6 max-w-4xl overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-2 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.24)]">
             <Image
-              src="/cartoon-character-playing-cricket-game-field.jpg"
-              alt="Cartoon cricket banner"
+              src="/media-image.png"
+              alt="Cricket battle media banner"
               width={1600}
               height={900}
               className="h-auto w-full rounded-[24px] object-cover"
             />
+            <div className="absolute inset-2 rounded-[24px] bg-gradient-to-t from-[#07101d]/88 via-[#07101d]/18 to-transparent" />
+            <div className="absolute inset-x-8 bottom-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-yellow-300/90">
+                Cricket Battle
+              </p>
+              <h3 className="mt-3 max-w-2xl text-4xl font-extrabold leading-tight text-white">
+                Where Rivalries Ignite
+                <span className="block bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500 bg-clip-text text-transparent">
+                  And Champions Rise
+                </span>
+              </h3>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-200">
+                Power. Passion. Pressure. One ground, one spotlight, one unforgettable cricket battle.
+              </p>
+            </div>
           </div>
         </div>
       )}
