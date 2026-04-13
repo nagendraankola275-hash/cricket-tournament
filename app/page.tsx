@@ -85,13 +85,25 @@ export default function Home() {
         <img
           src="/sringeri.png"
           alt=""
-          className="absolute top-28 left-[60px] w-[140px] opacity-70 hidden lg:block"
+          className={`absolute top-28 left-[20px] w-[92px] opacity-70 ${
+            isTouchDevice ? "hidden xl:block" : "hidden lg:block"
+          } lg:left-[60px] lg:w-[140px] ${
+            isTouchDevice ? "xl:left-[32px] xl:w-[110px]" : ""
+          } ${
+            isTouchDevice ? "xl:top-32" : ""
+          }`}
         />
 
         <img
           src="/ganesha.png"
           alt=""
-          className="absolute top-28 right-[60px] w-[150px] opacity-80 hidden lg:block"
+          className={`absolute top-28 right-[20px] w-[98px] opacity-80 ${
+            isTouchDevice ? "hidden xl:block" : "hidden lg:block"
+          } lg:right-[60px] lg:w-[150px] ${
+            isTouchDevice ? "xl:right-[32px] xl:w-[116px]" : ""
+          } ${
+            isTouchDevice ? "xl:top-32" : ""
+          }`}
         />
       </div>
 
@@ -120,7 +132,7 @@ export default function Home() {
 
         {isTouchDevice && (
           <div className="mt-8 w-full max-w-[240px]">
-            <div className="relative h-[220px] overflow-hidden rounded-[28px] border border-white/8 bg-[#0b1220]/40 px-3 py-3 backdrop-blur-sm shadow-[0_18px_45px_rgba(0,0,0,0.22)]">
+            <div className="relative h-[220px] overflow-hidden rounded-[28px] border border-white/8 bg-[#0b1220]/40 px-3 py-3 backdrop-blur-sm shadow-[0_18px_45px_rgba(0,0,0,0.22)] md:hidden">
               <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-12 rounded-t-[28px] bg-gradient-to-b from-[#0b1220]/92 via-[#0b1220]/60 to-transparent" />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-14 rounded-b-[28px] bg-gradient-to-t from-[#0b1220]/94 via-[#0b1220]/60 to-transparent" />
               <div className="team-reel-mobile">
