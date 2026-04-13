@@ -30,7 +30,7 @@ export default function Home() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // ✅ FINAL FIX: detect touch devices (works in desktop mode mobile)
+  // ✅ detect touch device
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
@@ -72,28 +72,24 @@ export default function Home() {
       {/* NAVBAR */}
       <Navbar />
 
-      {/* SIDE IMAGES */}
+      {/* SIDE IMAGES (ONLY LARGE SCREENS / DESKTOP MODE) */}
       <div className="absolute inset-0 pointer-events-none z-0">
 
-        {/* ✅ Hidden on touch devices (fix overlap) */}
-        {!isTouchDevice && (
-          <img
-            src="/sringeri.png"
-            className="absolute top-28 left-[60px] w-[140px] opacity-70 hidden md:block"
-          />
-        )}
+        <img
+          src="/sringeri.png"
+          className="absolute top-28 left-[60px] w-[140px] opacity-70 hidden lg:block"
+        />
 
-        {!isTouchDevice && (
-          <img
-            src="/ganesha.png"
-            className="absolute top-28 right-[60px] w-[150px] opacity-80 hidden md:block"
-          />
-        )}
+        <img
+          src="/ganesha.png"
+          className="absolute top-28 right-[60px] w-[150px] opacity-80 hidden lg:block"
+        />
 
       </div>
 
       {/* HERO */}
-      <div className="flex flex-col items-center justify-center text-center flex-1 relative z-10 px-4">
+      {/* ✅ FIXED GAP: removed flex-1, added padding */}
+      <div className="flex flex-col items-center justify-center text-center relative z-10 px-4 py-10">
 
         <Image
           src="/bpl-logo.png"
@@ -117,7 +113,20 @@ export default function Home() {
           Experience the thrill of cricket like never before.
         </p>
 
-        {/* ✅ MOBILE ROTATOR (only on touch devices) */}
+        {/* 🔥 KANNADA FLAG (ONLY MOBILE DESKTOP MODE) */}
+        {isTouchDevice && (
+          <div className="hidden md:flex justify-center mt-6">
+            <Image
+              src="/kannada-flag.png"
+              alt="Kannada Flag"
+              width={140}
+              height={90}
+              className="opacity-60 animate-flagWave"
+            />
+          </div>
+        )}
+
+        {/* MOBILE ROTATOR */}
         {isTouchDevice && (
           <div className="mt-8 flex flex-col items-center text-center space-y-3">
 
@@ -146,7 +155,7 @@ export default function Home() {
 
       </div>
 
-      {/* ✅ DESKTOP ROTATOR */}
+      {/* DESKTOP ROTATOR */}
       {!isTouchDevice && (
         <div className="hidden md:block absolute left-[40px] bottom-[120px] z-10 w-[200px]">
 
