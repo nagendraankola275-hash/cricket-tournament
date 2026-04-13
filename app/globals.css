@@ -133,6 +133,32 @@ body {
   will-change: transform;
 }
 
+@keyframes touchDesktopPosterGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(251, 191, 36, 0), 0 0 0 rgba(59, 130, 246, 0);
+  }
+  50% {
+    box-shadow: -16px 0 42px rgba(239, 68, 68, 0.12), 16px 0 42px rgba(59, 130, 246, 0.12);
+  }
+}
+
+@keyframes touchDesktopPosterFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.touch-desktop-poster {
+  animation: touchDesktopPosterGlow 4.8s ease-in-out infinite;
+}
+
+.touch-desktop-poster-card {
+  animation: touchDesktopPosterFloat 4.2s ease-in-out infinite;
+}
+
 /* ========================= */
 /* 📱 OPTIONAL SAFETY FIX */
 /* ========================= */
