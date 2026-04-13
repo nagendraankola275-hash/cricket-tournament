@@ -30,18 +30,15 @@ export default function Home() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // ✅ NEW: detect mobile properly
-  const [isMobile, setIsMobile] = useState(false);
+  // ✅ FINAL FIX: detect touch devices (works in desktop mode mobile)
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 900);
-    };
+    const touch =
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0;
 
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => window.removeEventListener("resize", checkMobile);
+    setIsTouchDevice(touch);
   }, []);
 
   const teams = [
@@ -78,13 +75,19 @@ export default function Home() {
       {/* SIDE IMAGES */}
       <div className="absolute inset-0 pointer-events-none z-0">
 
-        {/* ✅ FIXED: hide in mobile desktop mode */}
-        {!isMobile && (
-          <img src="/sringeri.png" className="absolute top-28 left-[60px] w-[140px] opacity-70 hidden md:block" />
+        {/* ✅ Hidden on touch devices (fix overlap) */}
+        {!isTouchDevice && (
+          <img
+            src="/sringeri.png"
+            className="absolute top-28 left-[60px] w-[140px] opacity-70 hidden md:block"
+          />
         )}
 
-        {!isMobile && (
-          <img src="/ganesha.png" className="absolute top-28 right-[60px] w-[150px] opacity-80 hidden md:block" />
+        {!isTouchDevice && (
+          <img
+            src="/ganesha.png"
+            className="absolute top-28 right-[60px] w-[150px] opacity-80 hidden md:block"
+          />
         )}
 
       </div>
@@ -114,67 +117,65 @@ export default function Home() {
           Experience the thrill of cricket like never before.
         </p>
 
-        {/* MOBILE ROTATOR */}
-        <div className="md:hidden mt-8 flex flex-col items-center text-center space-y-3">
+        {/* ✅ MOBILE ROTATOR (only on touch devices) */}
+        {isTouchDevice && (
+          <div className="mt-8 flex flex-col items-center text-center space-y-3">
 
-          <Image
-            src={teams[currentIndex].logo}
-            alt="team"
-            width={90}
-            height={90}
-            className="object-contain"
-          />
+            <Image
+              src={teams[currentIndex].logo}
+              alt="team"
+              width={90}
+              height={90}
+              className="object-contain"
+            />
 
-          <Image
-            src={teams[currentIndex].owner}
-            alt="owner"
-            width={60}
-            height={60}
-            className="rounded-full border-2 border-yellow-400"
-          />
+            <Image
+              src={teams[currentIndex].owner}
+              alt="owner"
+              width={60}
+              height={60}
+              className="rounded-full border-2 border-yellow-400"
+            />
 
-          <p className="text-sm font-semibold text-white">
-            {teams[currentIndex].name}
-          </p>
+            <p className="text-sm font-semibold text-white">
+              {teams[currentIndex].name}
+            </p>
 
-        </div>
-
-      </div>
-
-      {/* DESKTOP ROTATOR */}
-      <div
-        className={`z-10 ${
-          isMobile
-            ? "flex justify-center mt-6 relative w-full"
-            : "hidden md:block absolute left-[40px] bottom-[120px] w-[200px]"
-        }`}
-      >
-
-        <div className="flex flex-col items-center text-center space-y-3">
-
-          <Image
-            src={teams[currentIndex].logo}
-            alt="team"
-            width={110}
-            height={110}
-            className="object-contain drop-shadow-[0_0_15px_rgba(255,165,0,0.5)]"
-          />
-
-          <Image
-            src={teams[currentIndex].owner}
-            alt="owner"
-            width={80}
-            height={80}
-            className="rounded-full border-2 border-yellow-400 shadow-lg"
-          />
-
-          <p className="text-sm md:text-base font-semibold text-white">
-            {teams[currentIndex].name}
-          </p>
-
-        </div>
+          </div>
+        )}
 
       </div>
+
+      {/* ✅ DESKTOP ROTATOR */}
+      {!isTouchDevice && (
+        <div className="hidden md:block absolute left-[40px] bottom-[120px] z-10 w-[200px]">
+
+          <div className="flex flex-col items-center text-center space-y-3">
+
+            <Image
+              src={teams[currentIndex].logo}
+              alt="team"
+              width={110}
+              height={110}
+              className="object-contain drop-shadow-[0_0_15px_rgba(255,165,0,0.5)]"
+            />
+
+            <Image
+              src={teams[currentIndex].owner}
+              alt="owner"
+              width={80}
+              height={80}
+              className="rounded-full border-2 border-yellow-400 shadow-lg"
+            />
+
+            <p className="text-sm md:text-base font-semibold text-white">
+              {teams[currentIndex].name}
+            </p>
+
+          </div>
+
+        </div>
+      )}
 
       {/* COUNTDOWN */}
       <div className="pb-8 w-full flex justify-center relative z-10">

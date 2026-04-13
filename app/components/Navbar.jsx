@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -8,6 +8,17 @@ import { usePathname } from "next/navigation";
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  // ✅ detect touch device
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    const touch =
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0;
+
+    setIsTouchDevice(touch);
+  }, []);
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -37,74 +48,74 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* DESKTOP MENU */}
-        <div className="hidden md:flex items-center gap-10 text-sm font-medium">
+        {/* ✅ DESKTOP MENU (disable on touch devices) */}
+        {!isTouchDevice && (
+          <div className="hidden md:flex items-center gap-10 text-sm font-medium">
 
-          {navItems.map((item) => {
-            const isActive = pathname === item.path;
+            {navItems.map((item) => {
+              const isActive = pathname === item.path;
 
-            return (
-              <Link
-                key={item.name}
-                href={item.path}
-                className="relative group"
-              >
-                <span
-                  className={`transition ${
-                    isActive ? "text-yellow-400" : "text-gray-300"
-                  } group-hover:text-yellow-400`}
-                >
-                  {item.name}
-                </span>
+              return (
+                <Link key={item.name} href={item.path} className="relative group">
+                  <span
+                    className={`transition ${
+                      isActive ? "text-yellow-400" : "text-gray-300"
+                    } group-hover:text-yellow-400`}
+                  >
+                    {item.name}
+                  </span>
 
-                {/* 🔥 UNDERLINE ANIMATION */}
-                <span
-                  className={`
-                    absolute left-0 -bottom-1 h-[2px] w-full
-                    bg-gradient-to-r from-yellow-400 to-orange-500
-                    transition-transform duration-300 origin-left
-                    ${
-                      isActive
-                        ? "scale-x-100"
-                        : "scale-x-0 group-hover:scale-x-100"
-                    }
-                  `}
-                ></span>
-              </Link>
-            );
-          })}
+                  <span
+                    className={`
+                      absolute left-0 -bottom-1 h-[2px] w-full
+                      bg-gradient-to-r from-yellow-400 to-orange-500
+                      transition-transform duration-300 origin-left
+                      ${
+                        isActive
+                          ? "scale-x-100"
+                          : "scale-x-0 group-hover:scale-x-100"
+                      }
+                    `}
+                  ></span>
+                </Link>
+              );
+            })}
+          </div>
+        )}
 
-        </div>
+        {/* ✅ DESKTOP BUTTON (disable on touch devices) */}
+        {!isTouchDevice && (
+          <div className="hidden md:block">
+            <Link
+              href="/player-registration"
+              className="
+                px-6 py-2 rounded-full
+                bg-gradient-to-r from-yellow-400 to-orange-500
+                text-black font-semibold
+                hover:scale-105 transition
+                shadow-[0_0_20px_rgba(255,165,0,0.4)]
+              "
+            >
+              Player Registration Form
+            </Link>
+          </div>
+        )}
 
-        {/* RIGHT BUTTON */}
-        <div className="hidden md:block">
-          <Link
-            href="/player-registration"
-            className="
-              px-6 py-2 rounded-full
-              bg-gradient-to-r from-yellow-400 to-orange-500
-              text-black font-semibold
-              hover:scale-105 transition
-              shadow-[0_0_20px_rgba(255,165,0,0.4)]
-            "
+        {/* ✅ MOBILE MENU BUTTON (always for touch devices) */}
+        {isTouchDevice && (
+          <button
+            className="text-2xl"
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            Player Registration Form
-          </Link>
-        </div>
-
-        {/* MOBILE MENU BUTTON */}
-        <button
-          className="md:hidden text-2xl"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰
-        </button>
+            ☰
+          </button>
+        )}
 
       </div>
 
       {/* MOBILE MENU */}
-      {menuOpen && (
-        <div className="md:hidden flex flex-col items-center gap-4 pb-4 bg-[#020617]">
+      {menuOpen && isTouchDevice && (
+        <div className="flex flex-col items-center gap-4 pb-4 bg-[#020617]">
 
           {navItems.map((item) => (
             <Link
