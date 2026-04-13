@@ -112,6 +112,11 @@ body {
   will-change: transform;
 }
 
+.team-reel-mobile {
+  animation: teamReel 16s linear infinite;
+  will-change: transform;
+}
+
 /* ========================= */
 /* 📱 OPTIONAL SAFETY FIX */
 /* ========================= */

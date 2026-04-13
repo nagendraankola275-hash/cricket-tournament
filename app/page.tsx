@@ -27,7 +27,6 @@ export default function Home() {
     s: 0,
   });
 
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [isLargeDesktop, setIsLargeDesktop] = useState(false);
 
@@ -62,14 +61,6 @@ export default function Home() {
     const interval = setInterval(update, 1000);
     return () => clearInterval(interval);
   }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % teams.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [teams.length]);
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden bg-[#08101d]">
@@ -128,26 +119,39 @@ export default function Home() {
         </p>
 
         {isTouchDevice && (
-          <div className="mt-8 flex flex-col items-center text-center space-y-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 backdrop-blur-sm">
-            <Image
-              src={teams[currentIndex].logo}
-              alt="team"
-              width={90}
-              height={90}
-              className="object-contain"
-            />
+          <div className="mt-8 w-full max-w-[240px]">
+            <div className="relative h-[220px] overflow-hidden rounded-[28px] border border-white/8 bg-[#0b1220]/40 px-3 py-3 backdrop-blur-sm shadow-[0_18px_45px_rgba(0,0,0,0.22)]">
+              <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-12 rounded-t-[28px] bg-gradient-to-b from-[#0b1220]/92 via-[#0b1220]/60 to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-14 rounded-b-[28px] bg-gradient-to-t from-[#0b1220]/94 via-[#0b1220]/60 to-transparent" />
+              <div className="team-reel-mobile">
+                {reelTeams.map((team, index) => (
+                  <div
+                    key={`mobile-${team.name}-${index}`}
+                    className="mb-3 flex min-h-[140px] flex-col items-center justify-center rounded-[22px] border border-white/7 bg-[#101722]/88 px-4 py-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
+                  >
+                    <Image
+                      src={team.logo}
+                      alt={team.name}
+                      width={72}
+                      height={72}
+                      className="object-contain"
+                    />
 
-            <Image
-              src={teams[currentIndex].owner}
-              alt="owner"
-              width={60}
-              height={60}
-              className="rounded-full border-2 border-yellow-400"
-            />
+                    <Image
+                      src={team.owner}
+                      alt={`${team.name} owner`}
+                      width={54}
+                      height={54}
+                      className="mt-2 rounded-full border-2 border-yellow-400"
+                    />
 
-            <p className="text-sm font-semibold text-white">
-              {teams[currentIndex].name}
-            </p>
+                    <p className="mt-2 text-sm font-semibold text-white">
+                      {team.name}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>
