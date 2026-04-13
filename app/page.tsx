@@ -29,10 +29,20 @@ export default function Home() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isLargeDesktop, setIsLargeDesktop] = useState(false);
 
   useEffect(() => {
     const touch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     setIsTouchDevice(touch);
+
+    const updateViewport = () => {
+      setIsLargeDesktop(window.innerWidth >= 1280);
+    };
+
+    updateViewport();
+    window.addEventListener("resize", updateViewport);
+
+    return () => window.removeEventListener("resize", updateViewport);
   }, []);
 
   const teams = [
@@ -142,7 +152,7 @@ export default function Home() {
         )}
       </div>
 
-      {!isTouchDevice && (
+      {!isTouchDevice && isLargeDesktop && (
         <div className="hidden md:block absolute left-[40px] bottom-[120px] z-10 w-[220px]">
           <div className="relative h-[430px] overflow-hidden rounded-[30px] border border-white/8 bg-[#0b1220]/40 px-3 py-3 backdrop-blur-sm shadow-[0_18px_45px_rgba(0,0,0,0.22)]">
             <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-14 rounded-t-[30px] bg-gradient-to-b from-[#0b1220]/90 via-[#0b1220]/55 to-transparent" />
