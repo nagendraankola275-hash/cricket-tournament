@@ -30,6 +30,20 @@ export default function Home() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // ✅ NEW: detect mobile properly
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 900);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const teams = [
     { name: "Vaishya Titans", logo: "/team1.png", owner: "/owner1.png" },
     { name: "The Shetti's XI", logo: "/team2-new.png", owner: "/owner2.png" },
@@ -63,9 +77,16 @@ export default function Home() {
 
       {/* SIDE IMAGES */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        {/* ✅ ONLY CHANGE: added side-image */}
-        <img src="/sringeri.png" className="side-image absolute top-28 left-[60px] w-[140px] opacity-70 hidden md:block" />
-        <img src="/ganesha.png" className="side-image absolute top-28 right-[60px] w-[150px] opacity-80 hidden md:block" />
+
+        {/* ✅ FIXED: hide in mobile desktop mode */}
+        {!isMobile && (
+          <img src="/sringeri.png" className="absolute top-28 left-[60px] w-[140px] opacity-70 hidden md:block" />
+        )}
+
+        {!isMobile && (
+          <img src="/ganesha.png" className="absolute top-28 right-[60px] w-[150px] opacity-80 hidden md:block" />
+        )}
+
       </div>
 
       {/* HERO */}
@@ -121,8 +142,13 @@ export default function Home() {
       </div>
 
       {/* DESKTOP ROTATOR */}
-      {/* ✅ ONLY CHANGE: added desktop-rotator */}
-      <div className="hidden md:block absolute left-[40px] bottom-[120px] z-10 w-[200px] desktop-rotator">
+      <div
+        className={`z-10 ${
+          isMobile
+            ? "flex justify-center mt-6 relative w-full"
+            : "hidden md:block absolute left-[40px] bottom-[120px] w-[200px]"
+        }`}
+      >
 
         <div className="flex flex-col items-center text-center space-y-3">
 
