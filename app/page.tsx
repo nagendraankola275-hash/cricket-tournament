@@ -305,31 +305,33 @@ export default function Home() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-yellow-400/75">
-                  Cricket Pulse
+                  Classic Rivalry
                 </p>
                 <h2 className="mt-2 text-3xl font-extrabold text-white">
-                  Stadium Energy
+                  Old Jerseys
                 </h2>
               </div>
               <div className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-gray-200">
-                Match Night
+                Retro Mode
               </div>
             </div>
 
             <div className="mt-6 grid grid-cols-[1fr_auto_1fr] items-center gap-6">
               <div className="touch-desktop-poster-card rounded-[28px] border border-red-400/20 bg-gradient-to-br from-red-500/18 to-transparent px-6 py-6 text-center">
-                <Image
-                  src="/team2-new.png"
-                  alt="Featured attack"
-                  width={120}
-                  height={120}
-                  className="mx-auto object-contain"
-                />
+                <div className="jersey-motion jersey-motion-left">
+                  <div className="jersey-card jersey-rcb mx-auto">
+                    <div className="jersey-shoulder" />
+                    <div className="jersey-body">
+                      <div className="jersey-stripe" />
+                      <span className="jersey-label">RCB</span>
+                    </div>
+                  </div>
+                </div>
                 <p className="mt-4 text-lg font-bold uppercase tracking-[0.18em] text-white">
-                  Fire Charge
+                  Old RCB Jersey
                 </p>
                 <p className="mt-2 text-sm text-red-100/80">
-                  Aggressive powerplay starts
+                  Red and gold throwback vibe
                 </p>
               </div>
 
@@ -341,18 +343,20 @@ export default function Home() {
               </div>
 
               <div className="touch-desktop-poster-card rounded-[28px] border border-blue-400/20 bg-gradient-to-br from-blue-500/18 to-transparent px-6 py-6 text-center">
-                <Image
-                  src="/team3-new.png"
-                  alt="Featured defense"
-                  width={120}
-                  height={120}
-                  className="mx-auto object-contain"
-                />
+                <div className="jersey-motion jersey-motion-right">
+                  <div className="jersey-card jersey-india mx-auto">
+                    <div className="jersey-shoulder" />
+                    <div className="jersey-body">
+                      <div className="jersey-stripe" />
+                      <span className="jersey-label">INDIA</span>
+                    </div>
+                  </div>
+                </div>
                 <p className="mt-4 text-lg font-bold uppercase tracking-[0.18em] text-white">
-                  Ice Control
+                  Old India Jersey
                 </p>
                 <p className="mt-2 text-sm text-blue-100/80">
-                  Calm finish under lights
+                  Royal blue retro energy
                 </p>
               </div>
             </div>
