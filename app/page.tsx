@@ -41,6 +41,7 @@ export default function Home() {
     { name: "KVS Cricketers", logo: "/team3-new.png", owner: "/owner3.png" },
     { name: "Golden Eagles", logo: "/team4.png", owner: "/team4.png" },
   ];
+  const reelTeams = [...teams, ...teams];
 
   useEffect(() => {
     const update = () => {
@@ -143,26 +144,37 @@ export default function Home() {
 
       {!isTouchDevice && (
         <div className="hidden md:block absolute left-[40px] bottom-[120px] z-10 w-[220px]">
-          <div className="flex flex-col items-center text-center space-y-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-5 backdrop-blur-md shadow-xl">
-            <Image
-              src={teams[currentIndex].logo}
-              alt="team"
-              width={110}
-              height={110}
-              className="object-contain drop-shadow-[0_0_15px_rgba(255,165,0,0.45)]"
-            />
+          <div className="relative h-[430px] overflow-hidden rounded-[30px] border border-white/8 bg-[#0b1220]/40 px-3 py-3 backdrop-blur-sm shadow-[0_18px_45px_rgba(0,0,0,0.22)]">
+            <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-14 rounded-t-[30px] bg-gradient-to-b from-[#0b1220]/90 via-[#0b1220]/55 to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16 rounded-b-[30px] bg-gradient-to-t from-[#0b1220]/92 via-[#0b1220]/58 to-transparent" />
+            <div className="team-reel">
+              {reelTeams.map((team, index) => (
+                <div
+                  key={`${team.name}-${index}`}
+                  className="mb-4 flex min-h-[185px] flex-col items-center justify-center rounded-[26px] border border-white/7 bg-[#101722]/88 px-4 py-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
+                >
+                  <Image
+                    src={team.logo}
+                    alt={team.name}
+                    width={110}
+                    height={110}
+                    className="object-contain drop-shadow-[0_0_15px_rgba(255,165,0,0.45)]"
+                  />
 
-            <Image
-              src={teams[currentIndex].owner}
-              alt="owner"
-              width={80}
-              height={80}
-              className="rounded-full border-2 border-yellow-400 shadow-lg"
-            />
+                  <Image
+                    src={team.owner}
+                    alt={`${team.name} owner`}
+                    width={80}
+                    height={80}
+                    className="mt-3 rounded-full border-2 border-yellow-400 shadow-lg"
+                  />
 
-            <p className="text-sm md:text-base font-semibold text-white">
-              {teams[currentIndex].name}
-            </p>
+                  <p className="mt-3 text-sm md:text-base font-semibold text-white">
+                    {team.name}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
