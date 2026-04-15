@@ -71,7 +71,7 @@ export default function PlayerListPage() {
       {/* 🔥 VISIBILITY CHECK */}
       {!showPlayers ? (
         <p className="text-center text-gray-400">
-          🚧 Players will be revealed after auction
+          🚧 Players will be revealed before the auction
         </p>
       ) : loading ? (
         <p className="text-center text-gray-400">Loading players...</p>
