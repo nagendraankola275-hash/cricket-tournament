@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Navbar from "./components/Navbar";
 import { useState, useEffect } from "react";
+import PeopleConnected from "./components/PeopleConnected";
 
 export default function Home() {
   const getTimeLeft = () => {
@@ -327,6 +328,8 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      <PeopleConnected />   // ✅ ADD THIS LINE HERE
 
     </div>
   );
