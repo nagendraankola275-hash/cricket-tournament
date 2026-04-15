@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, onSnapshot } from "firebase/firestore";
 
 type Player = {
   id: string;
@@ -14,6 +14,30 @@ type Player = {
 export default function PlayerListPage() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // 🔥 VISIBILITY STATE
+  const [showPlayers, setShowPlayers] = useState(false);
+
+  // 🔥 LISTEN TO VISIBILITY (FIXED)
+  useEffect(() => {
+    const ref = doc(db, "settings", "visibility"); // ✅ FIXED (small s)
+
+    const unsub = onSnapshot(
+      ref,
+      (snap) => {
+        if (snap.exists()) {
+          setShowPlayers(snap.data().showPlayers ?? false);
+        } else {
+          setShowPlayers(false);
+        }
+      },
+      (error) => {
+        console.error("Visibility listener error:", error);
+      }
+    );
+
+    return () => unsub();
+  }, []);
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -44,8 +68,12 @@ export default function PlayerListPage() {
         Player List
       </h1>
 
-      {/* STATES */}
-      {loading ? (
+      {/* 🔥 VISIBILITY CHECK */}
+      {!showPlayers ? (
+        <p className="text-center text-gray-400">
+          🚧 Players will be revealed after auction
+        </p>
+      ) : loading ? (
         <p className="text-center text-gray-400">Loading players...</p>
       ) : players.length === 0 ? (
         <p className="text-center text-gray-400">

@@ -1,10 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
-import { collection, addDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  setDoc,
+  onSnapshot,
+} from "firebase/firestore";
 
-// ✅ TYPE FIX
+// ✅ TYPE
 type Player = {
   name: string;
   phone: string;
@@ -18,12 +24,15 @@ export default function AdminPlayersPage() {
 
   const ADMIN_PASSWORD = "Naags@3570";
 
-  // ✅ PLAYER STATE WITH TYPE
+  // ✅ PLAYER STATE
   const [players, setPlayers] = useState<Player[]>([
     { name: "", phone: "", role: "" },
   ]);
 
-  // 🔑 LOGIN HANDLER
+  // ✅ VISIBILITY STATE
+  const [showPlayers, setShowPlayers] = useState(false);
+
+  // 🔑 LOGIN
   const handleLogin = () => {
     if (inputPassword === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
@@ -32,7 +41,7 @@ export default function AdminPlayersPage() {
     }
   };
 
-  // ✏️ HANDLE INPUT CHANGE (FIXED TYPE)
+  // ✏️ INPUT CHANGE
   const handleChange = (
     index: number,
     field: keyof Player,
@@ -48,7 +57,7 @@ export default function AdminPlayersPage() {
     setPlayers([...players, { name: "", phone: "", role: "" }]);
   };
 
-  // 💾 SAVE TO FIREBASE
+  // 💾 SAVE PLAYERS
   const handleSubmit = async () => {
     try {
       for (let player of players) {
@@ -66,6 +75,38 @@ export default function AdminPlayersPage() {
       console.error(error);
       alert("Error adding players ❌");
     }
+  };
+
+  // 🔥 REAL-TIME VISIBILITY LISTENER (FIXED)
+  useEffect(() => {
+    const ref = doc(db, "settings", "visibility"); // ✅ correct (small s)
+
+    const unsub = onSnapshot(
+      ref,
+      (snap) => {
+        if (snap.exists()) {
+          setShowPlayers(snap.data().showPlayers ?? false);
+        } else {
+          setShowPlayers(false);
+        }
+      },
+      (error) => {
+        console.error("Snapshot error:", error);
+      }
+    );
+
+    return () => unsub();
+  }, []);
+
+  // 🔥 TOGGLE FUNCTION (SAFE)
+  const togglePlayersVisibility = async () => {
+    const ref = doc(db, "settings", "visibility"); // ✅ correct (small s)
+
+    await setDoc(ref, {
+      showPlayers: !showPlayers,
+    });
+
+    setShowPlayers(!showPlayers);
   };
 
   // 🔒 LOGIN SCREEN
@@ -94,23 +135,20 @@ export default function AdminPlayersPage() {
     );
   }
 
-  // ✅ ADMIN PANEL UI
+  // ✅ ADMIN UI
   return (
     <div className="min-h-screen bg-[#020617] text-white px-6 py-12">
-
       <h1 className="text-3xl font-bold mb-8 text-center">
         Admin - Add Players
       </h1>
 
       <div className="max-w-3xl mx-auto space-y-6">
-
         {players.map((player, index) => (
           <div
             key={index}
             className="bg-[#111827] p-4 rounded-xl border border-white/10"
           >
             <div className="grid md:grid-cols-3 gap-4">
-
               <input
                 type="text"
                 placeholder="Player Name"
@@ -144,12 +182,11 @@ export default function AdminPlayersPage() {
                 <option value="All-Rounder">All-Rounder</option>
                 <option value="Wicket Keeper">Wicket Keeper</option>
               </select>
-
             </div>
           </div>
         ))}
 
-        {/* ➕ ADD BUTTON */}
+        {/* ➕ ADD */}
         <button
           onClick={addPlayerField}
           className="w-full py-3 bg-blue-500 rounded"
@@ -165,6 +202,15 @@ export default function AdminPlayersPage() {
           Submit Players 🚀
         </button>
 
+        {/* 🔥 TOGGLE */}
+        <button
+          onClick={togglePlayersVisibility}
+          className={`w-full py-3 rounded mt-4 text-white ${
+            showPlayers ? "bg-red-500" : "bg-green-500"
+          }`}
+        >
+          {showPlayers ? "Hide Players ❌" : "Show Players ✅"}
+        </button>
       </div>
     </div>
   );
