@@ -34,10 +34,10 @@ export default function TeamsPage() {
     },
     {
       id: 4,
-      name: "Golden Eagles",
+      name: "Vaishya Power House",
       logo: "/team4.png",
-      owner: "Team Owner",
-      ownerImage: "/team4.png",
+      owner: "Harsha Gaonkar",
+      ownerImage: "/owner4.png",
       description: "Upcoming team ready to challenge the best in the league.",
     },
   ];
@@ -76,14 +76,18 @@ export default function TeamsPage() {
             bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-xl
             transition duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)]
           ">
-
-            <Image
-              src={selectedTeam.ownerImage}
-              alt="owner"
-              width={140}
-              height={140}
-              className="mx-auto rounded-full border-4 border-yellow-400"
-            />
+            <div className="relative mx-auto w-fit">
+              <Image
+                src={selectedTeam.ownerImage}
+                alt="owner"
+                width={140}
+                height={140}
+                className="mx-auto rounded-full border-4 border-yellow-400"
+              />
+              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-yellow-400/30 bg-[#111827] px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-yellow-300">
+                Owner
+              </div>
+            </div>
 
             <p className="text-gray-400 mt-4">Team Owner</p>
 
@@ -141,8 +145,8 @@ export default function TeamsPage() {
             "
           >
 
-            {/* 🔥 GLOW FIXED (NOW 3 TEAMS) */}
-            {index < 3 && (
+            {/* 🔥 GLOW FIXED (NOW 4 TEAMS) */}
+            {index < 4 && (
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-yellow-400/10 to-orange-500/10 blur-xl"></div>
             )}
 

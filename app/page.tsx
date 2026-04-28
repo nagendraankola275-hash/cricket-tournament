@@ -46,10 +46,10 @@ export default function Home() {
   }, []);
 
   const teams = [
-    { name: "Vaishya Titans", logo: "/team1.png", owner: "/owner1.png" },
-    { name: "The Shetti's XI", logo: "/team2-new.png", owner: "/owner2.png" },
-    { name: "KVS Cricketers", logo: "/team3-new.png", owner: "/owner3.png" },
-    { name: "Golden Eagles", logo: "/team4.png", owner: "/team4.png" },
+    { name: "Vaishya Titans", logo: "/team1.png", owner: "/owner1.png", ownerName: "Raghav Shetti" },
+    { name: "The Shetti's XI", logo: "/team2-new.png", owner: "/owner2.png", ownerName: "Ajay Shetti" },
+    { name: "KVS Cricketers", logo: "/team3-new.png", owner: "/owner3.png", ownerName: "KVS Akshay" },
+    { name: "Vaishya Power House", logo: "/team4.png", owner: "/owner4.png", ownerName: "Harsha Gaonkar" },
   ];
   const reelTeams = [...teams, ...teams];
 
@@ -161,6 +161,9 @@ export default function Home() {
                     <p className="mt-2 text-sm font-semibold text-white">
                       {team.name}
                     </p>
+                    <p className="mt-1 text-xs text-yellow-300/85">
+                      {team.ownerName}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -206,6 +209,9 @@ export default function Home() {
                     <p className="truncate text-sm font-semibold text-white">
                       {team.name}
                     </p>
+                    <p className="mt-1 truncate text-xs text-yellow-300/85">
+                      {team.ownerName}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -243,6 +249,9 @@ export default function Home() {
 
                   <p className="mt-3 text-sm md:text-base font-semibold text-white">
                     {team.name}
+                  </p>
+                  <p className="mt-1 text-xs text-yellow-300/85">
+                    {team.ownerName}
                   </p>
                 </div>
               ))}
