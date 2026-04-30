@@ -3,11 +3,20 @@
 import { useState } from "react";
 import Image from "next/image";
 
+type Team = {
+  id: number;
+  name: string;
+  logo: string;
+  owner: string;
+  ownerImage: string;
+  description: string;
+};
+
 export default function TeamsPage() {
 
-  const [selectedTeam, setSelectedTeam] = useState<any>(null);
+  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
 
-  const teams = [
+  const teams: Team[] = [
     {
       id: 1,
       name: "Vaishya Titans",

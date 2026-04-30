@@ -60,7 +60,7 @@ export default function AdminPlayersPage() {
   // 💾 SAVE PLAYERS
   const handleSubmit = async () => {
     try {
-      for (let player of players) {
+      for (const player of players) {
         if (player.name && player.phone && player.role) {
           await addDoc(collection(db, "players"), {
             ...player,
