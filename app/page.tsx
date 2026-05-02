@@ -37,23 +37,27 @@ const sponsors = [
     image: "/sponsor1.png",
     title: "Food Sponsor",
     description: "Food sponsored by D N Shetti, Sadashivgad, Karwar.",
+    imageClassName: "object-[center_18%]",
   },
   {
     image: "/sponsor2.png",
     title: "Trophy Sponsor",
     description: "Trophy sponsored by Geetha Shetti, Mundgod.",
+    imageClassName: "object-center",
   },
   {
     image: "/sponsor3.png",
     title: "Cash Prize Sponsor",
     description:
       "Cash prize sponsored by Mukta Subray Shetti and Umesh Venkatesh Shetti, Badageri, Sirsi.",
+    imageClassName: "object-center",
   },
   {
     image: "/sponsor4.png",
     title: "Special Awards Sponsor",
     description:
       "Shrikanth Keni is sponsoring the Man of the Series award, Best Batsman award, Best Bowler award, and 30+ six-hit match balls.",
+    imageClassName: "object-center",
   },
 ];
 
@@ -272,7 +276,7 @@ export default function Home() {
                     alt={sponsor.title}
                     width={92}
                     height={92}
-                    className="h-[92px] w-[92px] rounded-2xl object-cover"
+                    className={`h-[92px] w-[92px] rounded-2xl object-cover ${sponsor.imageClassName}`}
                   />
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-yellow-300">
@@ -288,7 +292,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="px-4 pb-12 md:px-6">
+        {!isTouchDevice && (
+          <div className="px-4 pb-12 md:px-6">
           <div className="mx-auto w-full max-w-6xl xl:max-w-[980px] overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-4 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.24)]">
             <div className="mb-5 flex items-center justify-between gap-4 px-2">
               <div>
@@ -337,7 +342,8 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </div>
+          </div>
+        )}
 
       </section>
 
