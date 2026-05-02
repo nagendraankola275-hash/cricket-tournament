@@ -37,7 +37,7 @@ export default function TeamsPage() {
       id: 3,
       name: "KVS Cricketers",
       logo: "/team3-new.png",
-      owner: "KVS Akshay",
+      owner: "Akshay Shetti",
       ownerImage: "/owner3.png",
       description: "Energetic and aggressive team with strong leadership.",
     },

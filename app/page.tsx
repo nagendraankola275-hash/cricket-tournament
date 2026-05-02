@@ -22,7 +22,7 @@ const teams = [
     name: "KVS Cricketers",
     logo: "/team3-new.png",
     owner: "/owner3.png",
-    ownerName: "KVS Akshay",
+    ownerName: "Akshay Shetti",
   },
   {
     name: "Vaishya Power House",

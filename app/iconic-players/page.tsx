@@ -19,7 +19,7 @@ export default function IconicPlayersPage() {
         <div className="rounded-[32px] border border-white/10 bg-white/5 p-6 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.24)] md:p-8">
           <div className="text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-yellow-300/90">
-              Iconic Players
+              Icon Players
             </p>
             <h1 className="mt-3 text-3xl md:text-5xl font-bold text-white">
               Featured Player Icons
