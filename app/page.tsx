@@ -211,7 +211,7 @@ export default function Home() {
                           height={52}
                           className="mb-2 rounded-full border-2 border-yellow-400"
                         />
-                        <p className="truncate text-sm font-semibold text-white">
+                        <p className="text-sm font-semibold text-white">
                           {team.name}
                         </p>
                         <p className="mt-1 truncate text-xs text-yellow-300/85">
