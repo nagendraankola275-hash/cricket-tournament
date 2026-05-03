@@ -20,14 +20,14 @@ const sponsors = [
     image: "/sponsor3.png",
     title: "Cash Prize Sponsor",
     description:
-      "Cash prize sponsored by Mukta Subray Shetti and Umesh Venkatesh Shetti, Badageri, Sirsi.",
+      "2nd Cash prize sponsored by Mukta Subray Shetti and Umesh Venkatesh Shetti, Badageri, Sirsi.",
     imageClassName: "object-center",
   },
   {
     image: "/sponsor4.png",
     title: "Special Awards Sponsor",
     description:
-      "Shrikanth Keni is sponsoring the Man of the Series award, Best Batsman award, Best Bowler award, and 30+ six-hit match balls.",
+      " Man of the Series, Best Batter, Best Bowler, and  balls sponsored by Shrikanth Keni ",
     imageClassName: "object-center",
   },
 ];

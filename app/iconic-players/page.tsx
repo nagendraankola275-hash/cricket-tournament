@@ -25,7 +25,7 @@ export default function IconicPlayersPage() {
               Featured Player Icons
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-sm md:text-base text-gray-300">
-              Meet the four iconic players featured for Bangalore Premier League 2026.
+              Meet the four icon players featured for Bangalore Premier League 2026.
             </p>
           </div>
 
