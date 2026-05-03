@@ -188,7 +188,6 @@ export default function Home() {
                   <p className="text-xs font-semibold uppercase tracking-[0.28em] text-yellow-400/80">
                     Featured Teams
                   </p>
-                  <p className="text-xs text-gray-400">Swipe feel reel</p>
                 </div>
                 <div className="touch-team-strip">
                   {reelTeams.map((team, index) => (
