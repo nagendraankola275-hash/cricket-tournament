@@ -262,7 +262,6 @@ export default function Home() {
                   Tournament Supporters
                 </h2>
               </div>
-              <p className="text-xs text-gray-400">Reel style showcase</p>
             </div>
 
             <div className="touch-team-strip">
@@ -304,7 +303,6 @@ export default function Home() {
                   Team Reel Showcase
                 </h2>
               </div>
-              <p className="text-xs text-gray-400">Reel style showcase</p>
             </div>
 
             <div className="touch-team-strip">
