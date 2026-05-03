@@ -6,8 +6,6 @@ export default function ContactPage() {
 
   const contacts = [
     { name: "Prasad", phone: "9035907644" },
-    { name: "Harsha", phone: "xxxxxxxxxx" },
-    { name: "Nikhil", phone: "xxxxxxxxxx" },
     { name: "Vaibhav", phone: "7892512424" },
     { name: "Nilesh", phone: "8861533602" },
     { name: "Nitish", phone: "8050834290" },
