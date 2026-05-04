@@ -30,6 +30,7 @@ export default function Navbar() {
     { name: "Home", path: "/" },
     { name: "Teams", path: "/teams" },
     { name: "Matches", path: "/matches" },
+    { name: "Auction Live", path: "/auction-live" },
     { name: "Icon Players", path: "/iconic-players" },
     { name: "Sponsor List", path: "/sponsors" },
     { name: "Player List", path: "/player-list" },
