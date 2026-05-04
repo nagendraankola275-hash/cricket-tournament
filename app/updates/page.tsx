@@ -8,12 +8,17 @@ export default function UpdatesPage() {
       <Navbar />
 
       <div className="mx-auto flex max-w-5xl flex-col items-center px-4 py-12">
+
+        {/* TITLE */}
         <h1 className="mb-10 text-center text-3xl font-bold md:text-5xl">
           Latest <span className="text-yellow-400">Updates</span>
         </h1>
 
+        {/* ================= FIRST CARD ================= */}
         <div className="w-full max-w-3xl overflow-hidden rounded-[32px] border border-white/10 bg-white/5 shadow-xl backdrop-blur-md">
+
           <div className="relative border-b border-white/10 bg-gradient-to-r from-[#101722] via-[#182132] to-[#101722] px-6 py-8">
+
             <div className="absolute -left-8 top-6 h-24 w-24 rounded-full bg-yellow-400/10 blur-2xl" />
             <div className="absolute -right-8 bottom-4 h-24 w-24 rounded-full bg-orange-500/10 blur-2xl" />
 
@@ -41,6 +46,34 @@ export default function UpdatesPage() {
             </p>
           </div>
         </div>
+
+        {/* ================= SECOND CARD (RULES IMAGE) ================= */}
+        <div className="mt-10 w-full max-w-3xl overflow-hidden rounded-[32px] border border-white/10 bg-white/5 shadow-xl backdrop-blur-md hover:scale-[1.02] transition duration-300">
+
+          {/* IMAGE */}
+          <img
+            src="/auction-rules.jpg"
+            alt="Auction Rules"
+            className="w-full object-cover"
+          />
+
+          {/* TEXT */}
+          <div className="px-6 py-6 text-center md:px-10">
+
+            <h2 className="text-xl md:text-2xl font-bold text-white">
+              BPL 2026 Auction Rules
+            </h2>
+
+            <p className="mt-3 text-gray-300 text-sm md:text-base">
+              Please go through the official auction rules carefully. These rules
+              define bidding structure, team composition, and auction guidelines
+              for Bangalore Premier League 2026.
+            </p>
+
+          </div>
+
+        </div>
+
       </div>
     </div>
   );
