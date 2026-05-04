@@ -19,7 +19,7 @@ export default function AuctionLivePage() {
         ...doc.data(),
       }));
 
-      const visiblePlayers = list.filter((p) => p.isVisible === true);
+      const visiblePlayers = list.filter((p: any) => p.isVisible === true);
       setPlayers(visiblePlayers);
     });
 
