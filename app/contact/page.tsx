@@ -5,10 +5,10 @@ import Navbar from "../components/Navbar";
 export default function ContactPage() {
 
   const contacts = [
-    { name: "Prasad", phone: "9035907644" },
-    { name: "Vaibhav", phone: "7892512424" },
-    { name: "Nilesh", phone: "8861533602" },
-    { name: "Nitish", phone: "8050834290" },
+    { name: "Prasad", phone: "9035907644", photo: "/contacts/prasad.jpg" },
+    { name: "Vaibhav", phone: "7892512424", photo: "/contacts/vaibhav.jpg" },
+    { name: "Nilesh", phone: "8861533602", photo: "/contacts/nilesh.jpg" },
+    { name: "Nitish", phone: "8050834290", photo: "/contacts/nitish.jpg" },
   ];
 
   return (
@@ -30,16 +30,32 @@ export default function ContactPage() {
             <a
               key={index}
               href={`tel:${person.phone}`}
-              className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-5 flex justify-between items-center hover:scale-105 transition"
+              className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-5 flex items-center justify-between hover:scale-105 transition duration-300"
             >
-              <div>
-                <p className="text-lg font-semibold">{person.name}</p>
-                <p className="text-gray-400 text-sm">Tap to call</p>
+
+              {/* LEFT SIDE */}
+              <div className="flex items-center gap-4">
+
+                {/* IMAGE */}
+                <img
+                  src={person.photo}
+                  alt={person.name}
+                  className="w-14 h-14 rounded-full object-cover border-2 border-yellow-400"
+                />
+
+                {/* TEXT */}
+                <div>
+                  <p className="text-lg font-semibold">{person.name}</p>
+                  <p className="text-gray-400 text-sm">Tap to call</p>
+                </div>
+
               </div>
 
-              <div className="text-yellow-400 font-bold">
+              {/* RIGHT SIDE */}
+              <div className="text-yellow-400 font-bold text-lg">
                 {person.phone}
               </div>
+
             </a>
           ))}
 
