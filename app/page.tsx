@@ -164,18 +164,27 @@ export default function Home() {
             alt="BPL"
             width={600}
             height={600}
-            className="h-[220px] md:h-[300px] lg:h-[360px] w-auto object-contain drop-shadow-[0_0_50px_rgba(255,165,0,0.55)]"
+            className="h-[180px] w-auto object-contain drop-shadow-[0_0_50px_rgba(255,165,0,0.55)] md:h-[300px] lg:h-[360px]"
             priority
           />
 
-          <h1 className="mt-8 text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
-            <span className="bg-gradient-to-r from-white via-yellow-300 to-orange-400 bg-clip-text text-transparent">
+          <h1 className="mt-6 max-w-[min(92vw,1100px)] text-3xl font-extrabold leading-tight sm:text-4xl md:mt-8 md:text-5xl lg:text-6xl">
+            <span className="block bg-gradient-to-r from-white via-yellow-300 to-orange-400 bg-clip-text text-transparent md:inline">
               Bangalore Premier League
             </span>
-            <span className="ml-2 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+            <span className="mt-1 block bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent md:ml-2 md:mt-0 md:inline">
               2026
             </span>
           </h1>
+
+          <h2 className="mt-3 text-xl font-extrabold leading-tight sm:text-2xl md:mt-4 md:text-3xl lg:text-4xl">
+            <span className="bg-gradient-to-r from-white via-yellow-300 to-orange-400 bg-clip-text text-transparent">
+              Season
+            </span>
+            <span className="ml-2 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+              1
+            </span>
+          </h2>
 
           <p className="mt-4 max-w-xl text-gray-300 text-sm md:text-base">
             Experience the thrill of cricket like never before.

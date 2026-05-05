@@ -11,29 +11,35 @@ type Player = {
   role: string;
 };
 
-// 🔥 FINAL IMAGE FUNCTION (NO BUGS)
+const normalizeName = (name: string) =>
+  name
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const playerImageAliases: Record<string, string> = {
+  "chetan m bandikatte": "/players/chetan_m_bandikatte.jpg",
+  "chethan m bandikatte": "/players/chetan_m_bandikatte.jpg",
+  "vinayak p balehittal": "/players/vinayak_p_balehittal.jpg",
+  "vinayak balehittal": "/players/vinayak_p_balehittal.jpg",
+  "chetan prakash vaidya": "/players/chetan_prakash_vaidya.jpg",
+  "chethan prakash vaidya": "/players/chetan_prakash_vaidya.jpg",
+  "nitish shetti": "/players/nitish_shetti.jpg",
+};
+
 const getImage = (name: string) => {
-  const n = name.toLowerCase().trim();
+  const normalizedName = normalizeName(name);
+  const aliasMatch = playerImageAliases[normalizedName];
 
-  // ✅ EXACT FIXES (TOP PRIORITY)
-  if (n === "chetan m bandikatte")
-    return "/players/chetan_m_bandikatte.jpg";
+  if (aliasMatch) {
+    return aliasMatch;
+  }
 
-  if (n === "vinayak p balehittal")
-    return "/players/vinayak_p_balehittal.jpg";
-
-  if (n === "chetan prakash vaidya")
-    return "/players/chetan_prakash_vaidya.jpg";
-
-  if (n === "nitish shetti")
-    return "/players/nitish_shetti.jpg";
-
-  // ✅ AUTO FOR ALL OTHERS
   return (
     "/players/" +
-    n
-      .replace(/[^a-z\s]/g, "")
-      .replace(/\s+/g, "_") +
+    normalizedName.replace(/\s+/g, "_") +
     ".jpg"
   );
 };
@@ -151,6 +157,7 @@ export default function PlayerListPage() {
         >
           <img
             src={selectedImage}
+            alt="Selected player"
             className="max-h-[80vh]"
           />
         </div>
