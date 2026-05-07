@@ -132,13 +132,15 @@ export default function AuctionLivePage() {
                       </div>
 
                       {/* TEAM */}
-                      <div>
+                      <div className="relative md:static">
                         <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-gray-400 md:hidden">
                           Team
                         </p>
-                        <div className="md:hidden flex items-center justify-between gap-4">
+                        <div className="md:hidden pr-28">
                           <p>{p.team || "-"}</p>
-                          {teamLogo && (
+                        </div>
+                        {teamLogo && (
+                          <div className="absolute right-0 top-8 md:hidden">
                             <Image
                               src={teamLogo}
                               alt={p.team || "Team"}
@@ -146,8 +148,8 @@ export default function AuctionLivePage() {
                               height={84}
                               className="h-20 w-20 shrink-0 rounded-2xl object-contain bg-white/10 p-2"
                             />
-                          )}
-                        </div>
+                          </div>
+                        )}
                         <div className="hidden md:flex items-center gap-2">
                           {teamLogo && (
                             <Image
