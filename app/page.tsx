@@ -286,7 +286,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="touch-team-strip">
+            <div className="touch-sponsor-strip">
               {reelSponsors.map((sponsor, index) => (
                 <div
                   key={`sponsor-${sponsor.title}-${index}`}

@@ -133,6 +133,22 @@ body {
   will-change: transform;
 }
 
+@keyframes touchSponsorStrip {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-306px * 5));
+  }
+}
+
+.touch-sponsor-strip {
+  display: flex;
+  width: max-content;
+  animation: touchSponsorStrip 32s linear infinite;
+  will-change: transform;
+}
+
 /* ========================= */
 /* 📱 OPTIONAL SAFETY FIX */
 /* ========================= */
