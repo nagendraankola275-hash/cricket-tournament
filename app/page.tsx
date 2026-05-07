@@ -40,12 +40,14 @@ const sponsors = [
     title: "Food Sponsor",
     description: "Food sponsored by D N Shetti, Sadashivgad, Karwar.",
     imageClassName: "object-[center_18%]",
+    reelImageClassName: "object-[center_18%]",
   },
   {
     image: "/sponsor2.png",
     title: "Trophy Sponsor",
     description: "Trophy sponsored by Geetha Shetti, Mundgod.",
     imageClassName: "object-center",
+    reelImageClassName: "object-center",
   },
   {
     image: "/sponsor3.png",
@@ -53,6 +55,7 @@ const sponsors = [
     description:
       "2nd Cash prize sponsored by Mukta Subray Shetti and Umesh Venkatesh Shetti, Badageri, Sirsi.",
     imageClassName: "object-center",
+    reelImageClassName: "object-center",
   },
   {
     image: "/sponsor4.png",
@@ -60,12 +63,14 @@ const sponsors = [
     description:
       "Man of the Series, Best Batter, Best Bowler, and  balls sponsored by Shrikanth Keni.",
     imageClassName: "object-center",
+    reelImageClassName: "object-center",
   },
   {
     image: "/sponsor5.png",
     title: "Cricket Ground Sponsor",
     description: "Cricket Ground Sponsored by Raghavendra Shetti.",
     imageClassName: "object-[center_14%] md:object-[center_22%]",
+    reelImageClassName: "object-[center_6%]",
   },
 ];
 
@@ -291,7 +296,9 @@ export default function Home() {
                     alt={sponsor.title}
                     width={92}
                     height={92}
-                    className={`h-[92px] w-[92px] rounded-2xl object-cover ${sponsor.imageClassName}`}
+                    className={`h-[92px] w-[92px] rounded-2xl object-cover ${
+                      sponsor.reelImageClassName || sponsor.imageClassName
+                    }`}
                   />
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-yellow-300">
