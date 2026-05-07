@@ -3,9 +3,11 @@
 import Image from "next/image";
 import Navbar from "../components/Navbar";
 
+const sponsor1Image = "/sponsor1.png?v=20260507-1809";
+
 const sponsors = [
   {
-    image: "/sponsor1.png",
+    image: sponsor1Image,
     title: "Food Sponsor",
     description: "Food sponsored by D N Shetti, Sadashivgad, Karwar.",
     imageClassName: "object-[center_18%]",

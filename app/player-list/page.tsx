@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs, doc, onSnapshot } from "firebase/firestore";
+import Navbar from "../components/Navbar";
 
 type Player = {
   id: string;
@@ -86,68 +87,72 @@ export default function PlayerListPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#020617] to-[#0f172a] text-white px-6 py-12">
+    <div className="min-h-screen bg-gradient-to-b from-[#020617] to-[#0f172a] text-white">
+      <Navbar />
 
-      {/* TITLE */}
-      <h1 className="text-4xl md:text-5xl font-bold text-center mb-10">
-        Player List
-      </h1>
+      <div className="px-6 py-12">
 
-      {/* CONDITIONS */}
-      {!showPlayers ? (
-        <p className="text-center text-gray-400">
-          🚧 Players will be revealed before the auction
-        </p>
-      ) : loading ? (
-        <p className="text-center text-gray-400">
-          Loading players...
-        </p>
-      ) : (
-        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {/* TITLE */}
+        <h1 className="text-4xl md:text-5xl font-bold text-center mb-10">
+          Player List
+        </h1>
 
-          {players.map((player) => {
-            const imageSrc = getImage(player.name);
+        {/* CONDITIONS */}
+        {!showPlayers ? (
+          <p className="text-center text-gray-400">
+            🚧 Players will be revealed before the auction
+          </p>
+        ) : loading ? (
+          <p className="text-center text-gray-400">
+            Loading players...
+          </p>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
 
-            return (
-              <div
-                key={player.id}
-                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:scale-105 transition duration-300"
-              >
-                <div className="flex items-center gap-4 mb-3">
+            {players.map((player) => {
+              const imageSrc = getImage(player.name);
 
-                  {/* IMAGE */}
-                  <img
-                    src={imageSrc}
-                    alt={player.name}
-                    className="w-14 h-14 rounded-full object-cover border-2 border-yellow-400 cursor-pointer"
-                    onClick={() => setSelectedImage(imageSrc)}
-                    onError={(e) => {
-                      e.currentTarget.src = "/players/default.png";
-                    }}
-                  />
+              return (
+                <div
+                  key={player.id}
+                  className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:scale-105 transition duration-300"
+                >
+                  <div className="flex items-center gap-4 mb-3">
 
-                  {/* INFO */}
-                  <div>
-                    <h2 className="text-lg font-semibold">
-                      {player.name}
-                    </h2>
-                    <p className="text-yellow-400 text-sm">
-                      {player.role}
-                    </p>
+                    {/* IMAGE */}
+                    <img
+                      src={imageSrc}
+                      alt={player.name}
+                      className="w-14 h-14 rounded-full object-cover border-2 border-yellow-400 cursor-pointer"
+                      onClick={() => setSelectedImage(imageSrc)}
+                      onError={(e) => {
+                        e.currentTarget.src = "/players/default.png";
+                      }}
+                    />
+
+                    {/* INFO */}
+                    <div>
+                      <h2 className="text-lg font-semibold">
+                        {player.name}
+                      </h2>
+                      <p className="text-yellow-400 text-sm">
+                        {player.role}
+                      </p>
+                    </div>
+
                   </div>
 
+                  {/* PHONE */}
+                  <p className="text-gray-400 text-sm">
+                    📞 {player.phone}
+                  </p>
                 </div>
+              );
+            })}
 
-                {/* PHONE */}
-                <p className="text-gray-400 text-sm">
-                  📞 {player.phone}
-                </p>
-              </div>
-            );
-          })}
-
-        </div>
-      )}
+          </div>
+        )}
+      </div>
 
       {/* FULL SCREEN IMAGE */}
       {selectedImage && (

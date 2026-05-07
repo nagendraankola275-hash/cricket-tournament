@@ -3,11 +3,13 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const isHomePage = pathname === "/";
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -22,9 +24,29 @@ export default function Navbar() {
     { name: "Contact Us", path: "/contact" },
   ];
 
+  const handleBack = () => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+      return;
+    }
+
+    router.push("/");
+  };
+
   return (
     <div className="w-full bg-[#020617]/80 backdrop-blur-md border-b border-white/10 text-white sticky top-0 z-50">
       <div className="relative flex min-h-[72px] items-center px-4 py-3 md:px-10">
+        {!isHomePage && (
+          <button
+            type="button"
+            onClick={handleBack}
+            aria-label="Go back"
+            className="mr-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-xl text-white transition hover:border-yellow-400/60 hover:text-yellow-300"
+          >
+            ←
+          </button>
+        )}
+
         <Link
           href="/"
           className="shrink-0"
@@ -73,6 +95,12 @@ export default function Navbar() {
               );
             })}
         </div>
+
+        {!isHomePage && (
+          <p className="ml-3 hidden text-sm font-medium text-gray-300 md:block lg:hidden">
+            Back
+          </p>
+        )}
 
         <button
           type="button"
