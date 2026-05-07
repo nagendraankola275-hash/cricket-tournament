@@ -70,7 +70,8 @@ const sponsors = [
     title: "Cricket Ground Sponsor",
     description: "Cricket Ground Sponsored by Raghavendra Shetti.",
     imageClassName: "object-[center_14%] md:object-[center_22%]",
-    reelImageClassName: "object-[center_6%]",
+    reelImageClassName: "object-top",
+    reelImageStyle: { objectPosition: "center 6%" },
   },
 ];
 
@@ -296,6 +297,7 @@ export default function Home() {
                     alt={sponsor.title}
                     width={92}
                     height={92}
+                    style={sponsor.reelImageStyle}
                     className={`h-[92px] w-[92px] rounded-2xl object-cover ${
                       sponsor.reelImageClassName || sponsor.imageClassName
                     }`}
