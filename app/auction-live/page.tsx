@@ -80,7 +80,7 @@ export default function AuctionLivePage() {
           <div>
 
             {/* TABLE HEADER */}
-            <div className="grid grid-cols-4 gap-4 px-4 py-3 bg-white/10 rounded-t-xl text-sm font-semibold text-gray-300">
+            <div className="hidden md:grid md:grid-cols-4 gap-4 px-4 py-3 bg-white/10 rounded-t-xl text-sm font-semibold text-gray-300">
               <p>Player</p>
               <p>Status</p>
               <p>Team</p>
@@ -88,7 +88,7 @@ export default function AuctionLivePage() {
             </div>
 
             {/* DATA */}
-            <div className="bg-white/5 border border-white/10 rounded-b-xl">
+            <div className="bg-white/5 border border-white/10 rounded-xl md:rounded-t-none md:rounded-b-xl">
 
               {players.length === 0 && (
                 <div className="p-10 text-center text-gray-400">
@@ -102,40 +102,62 @@ export default function AuctionLivePage() {
                 return (
                   <div
                     key={p.id}
-                    className="grid grid-cols-4 gap-4 px-4 py-3 border-b border-white/10 text-sm items-center"
+                    className="border-b border-white/10 px-4 py-4 text-sm last:border-b-0"
                   >
-                    {/* PLAYER */}
-                    <p>{p.name}</p>
+                    <div className="grid gap-3 md:grid-cols-4 md:gap-4 md:items-center">
+                      {/* PLAYER */}
+                      <div>
+                        <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-gray-400 md:hidden">
+                          Player
+                        </p>
+                        <p>{p.name}</p>
+                      </div>
 
-                    {/* STATUS */}
-                    <p
-                      className={
-                        p.status === "SOLD"
-                          ? "text-green-400 font-semibold"
-                          : p.status === "UNSOLD"
-                          ? "text-red-400 font-semibold"
-                          : "text-yellow-400 font-semibold"
-                      }
-                    >
-                      {p.status || "WAITING"}
-                    </p>
+                      {/* STATUS */}
+                      <div>
+                        <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-gray-400 md:hidden">
+                          Status
+                        </p>
+                        <p
+                          className={
+                            p.status === "SOLD"
+                              ? "text-green-400 font-semibold"
+                              : p.status === "UNSOLD"
+                              ? "text-red-400 font-semibold"
+                              : "text-yellow-400 font-semibold"
+                          }
+                        >
+                          {p.status || "WAITING"}
+                        </p>
+                      </div>
 
-                    {/* TEAM */}
-                    <div className="flex items-center gap-2">
-                      {teamLogo && (
-                        <Image
-                          src={teamLogo}
-                          alt={p.team || "Team"}
-                          width={28}
-                          height={28}
-                          className="h-7 w-7 rounded-full object-contain bg-white/10 p-1"
-                        />
-                      )}
-                      <p>{p.team || "-"}</p>
+                      {/* TEAM */}
+                      <div>
+                        <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-gray-400 md:hidden">
+                          Team
+                        </p>
+                        <div className="flex items-center gap-2">
+                          {teamLogo && (
+                            <Image
+                              src={teamLogo}
+                              alt={p.team || "Team"}
+                              width={28}
+                              height={28}
+                              className="h-7 w-7 rounded-full object-contain bg-white/10 p-1"
+                            />
+                          )}
+                          <p>{p.team || "-"}</p>
+                        </div>
+                      </div>
+
+                      {/* CREDITS */}
+                      <div>
+                        <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-gray-400 md:hidden">
+                          Credits
+                        </p>
+                        <p>{p.credits ? `${p.credits} Cr` : "-"}</p>
+                      </div>
                     </div>
-
-                    {/* CREDITS */}
-                    <p>{p.credits ? `${p.credits} Cr` : "-"}</p>
                   </div>
                 );
               })}
