@@ -61,6 +61,12 @@ const sponsors = [
       "Man of the Series, Best Batter, Best Bowler, and  balls sponsored by Shrikanth Keni.",
     imageClassName: "object-center",
   },
+  {
+    image: "/sponsor5.png",
+    title: "Cricket Ground Sponsor",
+    description: "Cricket Ground Sponsored by Raghavendra Shetti.",
+    imageClassName: "object-[center_22%]",
+  },
 ];
 
 const reelTeams = [...teams, ...teams];
