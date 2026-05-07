@@ -102,7 +102,9 @@ export default function AuctionLivePage() {
                 return (
                   <div
                     key={p.id}
-                    className="border-b border-white/10 px-4 py-4 text-sm last:border-b-0"
+                    className={`border-b border-white/10 px-4 py-4 text-sm last:border-b-0 ${
+                      teamLogo ? "md:py-4 pb-28" : ""
+                    }`}
                   >
                     <div className="grid gap-3 md:grid-cols-4 md:gap-4 md:items-center">
                       {/* PLAYER */}
@@ -140,7 +142,7 @@ export default function AuctionLivePage() {
                           <p>{p.team || "-"}</p>
                         </div>
                         {teamLogo && (
-                          <div className="absolute right-0 top-8 md:hidden">
+                          <div className="absolute right-0 bottom-0 md:hidden">
                             <Image
                               src={teamLogo}
                               alt={p.team || "Team"}
