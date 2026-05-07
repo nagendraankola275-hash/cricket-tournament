@@ -30,9 +30,9 @@ export default function AuctionLivePage() {
 
     // 🔥 PLAYERS LISTENER
     const unsubscribePlayers = onSnapshot(collection(db, "players"), (snapshot) => {
-      const list = snapshot.docs.map(doc => ({
+      const list: Player[] = snapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data(),
+        ...(doc.data() as Omit<Player, "id">),
       }));
 
       const visiblePlayers = list.filter((p) => p.isVisible === true);
