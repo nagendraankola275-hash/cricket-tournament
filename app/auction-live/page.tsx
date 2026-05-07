@@ -1,13 +1,29 @@
 "use client";
 
+import Image from "next/image";
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, onSnapshot, doc } from "firebase/firestore";
 
-export default function AuctionLivePage() {
+type Player = {
+  id: string;
+  name: string;
+  status?: string;
+  team?: string;
+  credits?: number;
+  isVisible?: boolean;
+};
 
-  const [players, setPlayers] = useState<any[]>([]);
+const teamLogos: Record<string, string> = {
+  "Vaishya Titans": "/team1.png",
+  "The Shetti's XI": "/team2-new.png",
+  "KVS Cricketers": "/team3-new.png",
+  "Vaishya Power House": "/team4.png",
+};
+
+export default function AuctionLivePage() {
+  const [players, setPlayers] = useState<Player[]>([]);
   const [showAuction, setShowAuction] = useState(false);
 
   useEffect(() => {
@@ -19,7 +35,7 @@ export default function AuctionLivePage() {
         ...doc.data(),
       }));
 
-      const visiblePlayers = list.filter((p: any) => p.isVisible === true);
+      const visiblePlayers = list.filter((p) => p.isVisible === true);
       setPlayers(visiblePlayers);
     });
 
@@ -80,34 +96,49 @@ export default function AuctionLivePage() {
                 </div>
               )}
 
-              {players.map((p) => (
-                <div
-                  key={p.id}
-                  className="grid grid-cols-4 gap-4 px-4 py-3 border-b border-white/10 text-sm items-center"
-                >
-                  {/* PLAYER */}
-                  <p>{p.name}</p>
+              {players.map((p) => {
+                const teamLogo = p.team ? teamLogos[p.team] : undefined;
 
-                  {/* STATUS */}
-                  <p
-                    className={
-                      p.status === "SOLD"
-                        ? "text-green-400 font-semibold"
-                        : p.status === "UNSOLD"
-                        ? "text-red-400 font-semibold"
-                        : "text-yellow-400 font-semibold"
-                    }
+                return (
+                  <div
+                    key={p.id}
+                    className="grid grid-cols-4 gap-4 px-4 py-3 border-b border-white/10 text-sm items-center"
                   >
-                    {p.status || "WAITING"}
-                  </p>
+                    {/* PLAYER */}
+                    <p>{p.name}</p>
 
-                  {/* TEAM */}
-                  <p>{p.team || "-"}</p>
+                    {/* STATUS */}
+                    <p
+                      className={
+                        p.status === "SOLD"
+                          ? "text-green-400 font-semibold"
+                          : p.status === "UNSOLD"
+                          ? "text-red-400 font-semibold"
+                          : "text-yellow-400 font-semibold"
+                      }
+                    >
+                      {p.status || "WAITING"}
+                    </p>
 
-                  {/* CREDITS */}
-                  <p>{p.credits ? `${p.credits} Cr` : "-"}</p>
-                </div>
-              ))}
+                    {/* TEAM */}
+                    <div className="flex items-center gap-2">
+                      {teamLogo && (
+                        <Image
+                          src={teamLogo}
+                          alt={p.team || "Team"}
+                          width={28}
+                          height={28}
+                          className="h-7 w-7 rounded-full object-contain bg-white/10 p-1"
+                        />
+                      )}
+                      <p>{p.team || "-"}</p>
+                    </div>
+
+                    {/* CREDITS */}
+                    <p>{p.credits ? `${p.credits} Cr` : "-"}</p>
+                  </div>
+                );
+              })}
 
             </div>
 
