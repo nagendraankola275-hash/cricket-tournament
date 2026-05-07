@@ -36,7 +36,7 @@ const sponsors = [
     image: "/sponsor5.png",
     title: "Cricket Ground Sponsor",
     description: "Cricket Ground Sponsored by Raghavendra Shetti.",
-    imageClassName: "object-[center_22%]",
+    imageClassName: "object-[center_14%] md:object-[center_22%]",
   },
 ];
 
