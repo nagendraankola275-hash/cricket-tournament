@@ -66,6 +66,29 @@ export default function GalleryPage() {
           </div>
         </section>
 
+        <section className="mt-12 overflow-hidden rounded-[34px] border border-white/10 bg-white/5 p-5 shadow-[0_25px_80px_rgba(0,0,0,0.3)] backdrop-blur-md md:p-8">
+          <div className="mb-6 text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-yellow-300/85">
+              Featured Video
+            </p>
+            <h2 className="mt-3 text-2xl font-bold text-white md:text-4xl">
+              Icon & Team Showcase
+            </h2>
+          </div>
+
+          <div className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-[#0f172a]/78 p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] transition duration-500 hover:-translate-y-1 hover:border-yellow-400/30 hover:shadow-[0_20px_50px_rgba(59,130,246,0.18)] md:p-4">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.16),transparent_38%),radial-gradient(circle_at_bottom_right,rgba(250,204,21,0.14),transparent_32%)] opacity-80 transition duration-500 group-hover:opacity-100" />
+            <video
+              controls
+              playsInline
+              className="relative w-full rounded-[22px] border border-white/8 bg-black object-cover"
+            >
+              <source src="/Gallery/icon&team video.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </section>
+
         <section className="mt-12">
           <div className="mb-8 text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-yellow-300/85">
