@@ -16,6 +16,7 @@ export default function Navbar() {
     { name: "Teams", path: "/teams" },
     { name: "Matches", path: "/matches" },
     { name: "Auction Live", path: "/auction-live" },
+    { name: "Gallery", path: "/gallery" },
     { name: "Icon Players", path: "/iconic-players" },
     { name: "Sponsor List", path: "/sponsors" },
     { name: "Player List", path: "/player-list" },

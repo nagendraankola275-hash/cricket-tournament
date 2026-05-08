@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Navbar from "../components/Navbar";
 
 export default function UpdatesPage() {
@@ -51,9 +52,11 @@ export default function UpdatesPage() {
         <div className="mt-10 w-full max-w-3xl overflow-hidden rounded-[32px] border border-white/10 bg-white/5 shadow-xl backdrop-blur-md hover:scale-[1.02] transition duration-300">
 
           {/* IMAGE */}
-          <img
+          <Image
             src="/auction-rules.jpg"
             alt="Auction Rules"
+            width={1400}
+            height={1800}
             className="w-full object-cover"
           />
 
@@ -72,6 +75,31 @@ export default function UpdatesPage() {
 
           </div>
 
+        </div>
+
+        <div className="mt-10 w-full max-w-3xl overflow-hidden rounded-[32px] border border-yellow-400/15 bg-white/5 shadow-xl backdrop-blur-md transition duration-300 hover:scale-[1.02] hover:shadow-[0_22px_55px_rgba(250,204,21,0.16)]">
+          <div className="relative overflow-hidden p-3 md:p-4">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(250,204,21,0.14),transparent_42%),radial-gradient(circle_at_bottom_right,rgba(249,115,22,0.14),transparent_30%)]" />
+            <Image
+              src="/Gallery/cashprize.png"
+              alt="Cash Prize Poster"
+              width={1400}
+              height={1800}
+              className="relative w-full rounded-[24px] border border-white/10 object-cover"
+            />
+          </div>
+
+          <div className="px-6 py-6 text-center md:px-10">
+            <h2 className="text-xl font-bold text-white md:text-2xl">
+              BPL 2026 Cash Prize
+            </h2>
+
+            <p className="mt-3 text-sm text-gray-300 md:text-base">
+              The official cash prize poster is now part of the tournament
+              updates. Please check the prize distribution and featured
+              announcement highlights here.
+            </p>
+          </div>
         </div>
 
       </div>
