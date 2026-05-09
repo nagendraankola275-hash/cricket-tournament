@@ -6,19 +6,19 @@ import Navbar from "../components/Navbar";
 const shields = [
   {
     image: "/Gallery/shield1.png",
-    name: "Vaishya Titans",
-  },
-  {
-    image: "/Gallery/shield2.png",
     name: "The Shetti's XI",
   },
   {
+    image: "/Gallery/shield2.png",
+    name: "Vaishya Titans",
+  },
+  {
     image: "/Gallery/shield3.png",
-    name: "KVS Cricketers",
+    name: "Vaishya Power House",
   },
   {
     image: "/Gallery/shield4.png",
-    name: "Vaishya Power House",
+    name: "KVS Cricketers",
   },
 ];
 
