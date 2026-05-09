@@ -2,7 +2,24 @@
 
 import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
-import { collection, getDocs, doc, updateDoc, setDoc, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  updateDoc,
+  setDoc,
+  onSnapshot,
+  writeBatch,
+} from "firebase/firestore";
+
+type Player = {
+  id: string;
+  name: string;
+  status?: string;
+  team?: string;
+  credits?: number;
+  isVisible?: boolean;
+  auctionOrder?: number;
+};
 
 export default function AdminAuctionPage() {
 
@@ -21,9 +38,10 @@ export default function AdminAuctionPage() {
   };
 
   // 🧾 PLAYER DATA
-  const [players, setPlayers] = useState<any[]>([]);
+  const [players, setPlayers] = useState<Player[]>([]);
 
   const [player, setPlayer] = useState("");
+  const [playerSearch, setPlayerSearch] = useState("");
   const [status, setStatus] = useState("WAITING");
   const [team, setTeam] = useState("");
   const [credits, setCredits] = useState("");
@@ -34,18 +52,16 @@ export default function AdminAuctionPage() {
   // ✅ AUCTION VISIBILITY (NEW)
   const [showAuction, setShowAuction] = useState(false);
 
-  // 🔥 FETCH PLAYERS
   useEffect(() => {
-    const fetchPlayers = async () => {
-      const snapshot = await getDocs(collection(db, "players"));
-      const list = snapshot.docs.map(doc => ({
+    const unsubscribe = onSnapshot(collection(db, "players"), (snapshot) => {
+      const list: Player[] = snapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data(),
+        ...(doc.data() as Omit<Player, "id">),
       }));
       setPlayers(list);
-    };
+    });
 
-    fetchPlayers();
+    return () => unsubscribe();
   }, []);
 
   // 🔥 FETCH AUCTION VISIBILITY
@@ -62,30 +78,84 @@ export default function AdminAuctionPage() {
     return () => unsubscribe();
   }, []);
 
-  // 🔥 SYNC PLAYER DATA
-  useEffect(() => {
-    if (!player) return;
+  const handlePlayerChange = (playerId: string) => {
+    setPlayer(playerId);
 
-    const selected = players.find((p) => p.id === player);
+    const selected = players.find((p) => p.id === playerId);
 
-    if (selected) {
-      setStatus(selected.status || "WAITING");
-      setTeam(selected.team || "");
-      setCredits(selected.credits || "");
-      setIsVisible(selected.isVisible !== false);
+    if (!selected) {
+      setStatus("WAITING");
+      setTeam("");
+      setCredits("");
+      setIsVisible(true);
+      return;
     }
-  }, [player, players]);
+
+    setStatus(selected.status || "WAITING");
+    setTeam(selected.team || "");
+    setCredits(selected.credits ? String(selected.credits) : "");
+    setIsVisible(true);
+  };
+
+  const filteredPlayers = players.filter((playerItem) =>
+    playerItem.name.toLowerCase().includes(playerSearch.toLowerCase().trim())
+  );
+
+  const handleSearchChange = (value: string) => {
+    setPlayerSearch(value);
+
+    const query = value.toLowerCase().trim();
+
+    if (!query) {
+      return;
+    }
+
+    const exactMatch = players.find(
+      (playerItem) => playerItem.name.toLowerCase() === query
+    );
+
+    if (exactMatch) {
+      handlePlayerChange(exactMatch.id);
+      return;
+    }
+
+    const startsWithMatch = players.find((playerItem) =>
+      playerItem.name.toLowerCase().startsWith(query)
+    );
+
+    if (startsWithMatch) {
+      handlePlayerChange(startsWithMatch.id);
+      return;
+    }
+
+    const containsMatches = players.filter((playerItem) =>
+      playerItem.name.toLowerCase().includes(query)
+    );
+
+    if (containsMatches.length === 1) {
+      handlePlayerChange(containsMatches[0].id);
+    }
+  };
 
   // 🚀 UPDATE PLAYER
   const handleUpdate = async () => {
     if (!player) return alert("Select player");
 
     try {
+      const selected = players.find((p) => p.id === player);
+      const highestAuctionOrder = players.reduce((max, current) => {
+        return Math.max(max, current.auctionOrder ?? 0);
+      }, 0);
+
+      const nextAuctionOrder =
+        isVisible && !selected?.auctionOrder ? highestAuctionOrder + 1 : selected?.auctionOrder ?? 0;
+
       await updateDoc(doc(db, "players", player), {
         status,
         team: status === "SOLD" ? team : "",
         credits: status === "SOLD" ? Number(credits) : 0,
         isVisible,
+        auctionOrder: isVisible ? nextAuctionOrder : selected?.auctionOrder ?? 0,
       });
 
       alert("Player updated successfully 🔥");
@@ -99,6 +169,35 @@ export default function AdminAuctionPage() {
     } catch (error) {
       console.error(error);
       alert("Error updating player");
+    }
+  };
+
+  const resetAuctionList = async () => {
+    try {
+      const batch = writeBatch(db);
+
+      players.forEach((playerData) => {
+        batch.update(doc(db, "players", playerData.id), {
+          status: "WAITING",
+          team: "",
+          credits: 0,
+          isVisible: false,
+          auctionOrder: 0,
+        });
+      });
+
+      await batch.commit();
+
+      setPlayer("");
+      setStatus("WAITING");
+      setTeam("");
+      setCredits("");
+      setIsVisible(true);
+
+      alert("Auction list reset successfully ✅");
+    } catch (error) {
+      console.error(error);
+      alert("Error resetting auction list");
     }
   };
 
@@ -167,15 +266,32 @@ export default function AdminAuctionPage() {
             </button>
           </div>
 
+          <div className="mb-6 text-center">
+            <button
+              onClick={resetAuctionList}
+              className="w-full rounded-lg bg-slate-700 py-2 font-semibold text-white hover:bg-slate-600"
+            >
+              Reset Auction List
+            </button>
+          </div>
+
+          <input
+            type="text"
+            placeholder="Search player name"
+            value={playerSearch}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className="w-full mb-4 p-2 rounded bg-black border border-white/10"
+          />
+
           {/* PLAYER */}
           <select
             value={player}
-            onChange={(e) => setPlayer(e.target.value)}
+            onChange={(e) => handlePlayerChange(e.target.value)}
             className="w-full mb-4 p-2 rounded bg-black"
           >
             <option value="">Select Player</option>
 
-            {players.map((p) => (
+            {filteredPlayers.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.name}
               </option>
@@ -218,14 +334,14 @@ export default function AdminAuctionPage() {
               >
                 <option value="">Select Team</option>
                 <option value="Vaishya Titans">Vaishya Titans</option>
-                <option value="The Shetti's XI">The Shetti's XI</option>
+                <option value="The Shetti's XI">The Shetti&apos;s XI</option>
                 <option value="KVS Cricketers">KVS Cricketers</option>
                 <option value="Vaishya Power House">Vaishya Power House</option>
               </select>
 
               <input
                 type="number"
-                placeholder="Enter Credits"
+                placeholder="Enter Points"
                 value={credits}
                 onChange={(e) => setCredits(e.target.value)}
                 className="w-full mb-4 p-2 rounded bg-black"

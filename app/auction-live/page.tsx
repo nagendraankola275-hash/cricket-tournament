@@ -13,6 +13,7 @@ type Player = {
   team?: string;
   credits?: number;
   isVisible?: boolean;
+  auctionOrder?: number;
 };
 
 const teamLogos: Record<string, string> = {
@@ -35,7 +36,18 @@ export default function AuctionLivePage() {
         ...(doc.data() as Omit<Player, "id">),
       }));
 
-      const visiblePlayers = list.filter((p) => p.isVisible === true);
+      const visiblePlayers = list
+        .filter((p) => p.isVisible === true)
+        .sort((a, b) => {
+          const aOrder = a.auctionOrder ?? Number.MAX_SAFE_INTEGER;
+          const bOrder = b.auctionOrder ?? Number.MAX_SAFE_INTEGER;
+
+          if (aOrder !== bOrder) {
+            return aOrder - bOrder;
+          }
+
+          return a.name.localeCompare(b.name);
+        });
       setPlayers(visiblePlayers);
     });
 
@@ -84,7 +96,7 @@ export default function AuctionLivePage() {
               <p>Player</p>
               <p>Status</p>
               <p>Team</p>
-              <p>Credits</p>
+              <p>Points</p>
             </div>
 
             {/* DATA */}
@@ -169,9 +181,9 @@ export default function AuctionLivePage() {
                       {/* CREDITS */}
                       <div>
                         <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-gray-400 md:hidden">
-                          Credits
+                          Points
                         </p>
-                        <p>{p.credits ? `${p.credits} Cr` : "-"}</p>
+                        <p>{p.credits ? p.credits : "-"}</p>
                       </div>
                     </div>
                   </div>
