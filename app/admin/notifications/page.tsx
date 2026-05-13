@@ -2,7 +2,17 @@
 
 import { useState } from "react";
 import { db } from "@/lib/firebase";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
+
+type PlayerRecord = {
+  phone?: string;
+};
 
 export default function AdminNotificationsPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -15,6 +25,16 @@ export default function AdminNotificationsPage() {
   const [version, setVersion] = useState(Date.now());
 
   const ADMIN_PASSWORD = "Naags@3570";
+
+  const normalizePhoneNumber = (value: string) => value.replace(/[^\d+]/g, "");
+
+  const getSmsSeparator = () => {
+    if (typeof navigator === "undefined") {
+      return ",";
+    }
+
+    return /iPhone|iPad|iPod|Mac/i.test(navigator.userAgent) ? ";" : ",";
+  };
 
   const handleLogin = () => {
     if (password === ADMIN_PASSWORD) {
@@ -93,6 +113,54 @@ export default function AdminNotificationsPage() {
     }
   };
 
+  const handleOpenSmsDraft = async () => {
+    if (!title.trim() || !body.trim()) {
+      setStatusMessage("Title and body are required.");
+      return;
+    }
+
+    setSending(true);
+    setStatusMessage("");
+
+    try {
+      const snapshot = await getDocs(collection(db, "players"));
+      const phoneNumbers = Array.from(
+        new Set(
+          snapshot.docs
+            .map((playerDoc) => {
+              const data = playerDoc.data() as PlayerRecord;
+              return normalizePhoneNumber(data.phone || "");
+            })
+            .filter(Boolean)
+        )
+      );
+
+      if (!phoneNumbers.length) {
+        setStatusMessage("No player phone numbers found.");
+        return;
+      }
+
+      const message = [title.trim(), body.trim(), link.trim()].filter(Boolean).join(
+        "\n\n"
+      );
+      const smsHref = `sms:${phoneNumbers.join(
+        getSmsSeparator()
+      )}?body=${encodeURIComponent(message)}`;
+
+      window.location.href = smsHref;
+      setStatusMessage(
+        `Opened SMS draft for ${phoneNumbers.length} player number(s).`
+      );
+    } catch (error) {
+      console.error(error);
+      setStatusMessage(
+        error instanceof Error ? error.message : "Unable to open SMS draft."
+      );
+    } finally {
+      setSending(false);
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#020617] px-4 text-white">
@@ -126,10 +194,10 @@ export default function AdminNotificationsPage() {
           Admin Notifications
         </p>
         <h1 className="mt-3 text-3xl font-bold md:text-4xl">
-          Send Live Website And Phone Alert
+          Send Live Update
         </h1>
         <p className="mt-3 text-sm leading-7 text-gray-300 md:text-base">
-          Use this page whenever you publish a new update, gallery item, player reveal, or match announcement. People on the website will see a floating message, and subscribed phones/browsers will receive a direct alert.
+          Use this page for website updates. If you want to message players directly, use the SMS draft button to open your phone&apos;s Messages app with the player numbers and update text filled in.
         </p>
 
         <div className="mt-8 space-y-4">
@@ -163,7 +231,16 @@ export default function AdminNotificationsPage() {
             disabled={sending}
             className="w-full rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 py-3 font-semibold text-black transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {sending ? "Sending..." : "Send Live Update"}
+            {sending ? "Working..." : "Send Website Update"}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleOpenSmsDraft}
+            disabled={sending}
+            className="w-full rounded-xl border border-cyan-400/30 bg-cyan-400/10 py-3 font-semibold text-cyan-200 transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {sending ? "Working..." : "Open SMS Draft For Players"}
           </button>
 
           {statusMessage && (
