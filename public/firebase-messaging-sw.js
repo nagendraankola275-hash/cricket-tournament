@@ -40,6 +40,11 @@ messaging.onBackgroundMessage(function(payload) {
   const notificationOptions = {
     body: payload.notification?.body || "New tournament update available.",
     icon: "/bpl-logo.png",
+    badge: "/bpl-logo.png",
+    tag: "bpl-live-update",
+    renotify: true,
+    requireInteraction: true,
+    vibrate: [200, 100, 200],
     data: {
       link: payload?.fcmOptions?.link || payload?.data?.link || "/",
     },

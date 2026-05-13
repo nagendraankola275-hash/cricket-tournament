@@ -35,12 +35,16 @@ export default function AdminNotificationsPage() {
     setStatusMessage("");
 
     try {
+      const cleanTitle = title.trim();
+      const cleanBody = body.trim();
+      const cleanLink = link.trim() || "https://bpl2026.in/";
+
       await setDoc(
         doc(db, "settings", "liveAnnouncement"),
         {
-          title: title.trim(),
-          body: body.trim(),
-          link: link.trim(),
+          title: cleanTitle,
+          body: cleanBody,
+          link: cleanLink,
           active: true,
           version,
           updatedAt: serverTimestamp(),
@@ -48,7 +52,34 @@ export default function AdminNotificationsPage() {
         { merge: true }
       );
 
-      setStatusMessage("Live announcement sent to active website visitors.");
+      const response = await fetch("/api/notifications/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password,
+          title: cleanTitle,
+          body: cleanBody,
+          link: cleanLink,
+        }),
+      });
+
+      const result = (await response.json()) as {
+        error?: string;
+        sent?: number;
+        message?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(result.error || "Unable to send phone notifications.");
+      }
+
+      setStatusMessage(
+        result.sent
+          ? `Live alert sent to website visitors and ${result.sent} subscribed device(s).`
+          : result.message || "Live announcement sent to website visitors."
+      );
       setTitle("");
       setBody("");
       setVersion(Date.now());
@@ -95,10 +126,10 @@ export default function AdminNotificationsPage() {
           Admin Notifications
         </p>
         <h1 className="mt-3 text-3xl font-bold md:text-4xl">
-          Send Live Website Update
+          Send Live Website And Phone Alert
         </h1>
         <p className="mt-3 text-sm leading-7 text-gray-300 md:text-base">
-          Use this page whenever you publish a new update, gallery item, player reveal, or match announcement. People currently viewing the website will see a floating update message.
+          Use this page whenever you publish a new update, gallery item, player reveal, or match announcement. People on the website will see a floating message, and subscribed phones/browsers will receive a direct alert.
         </p>
 
         <div className="mt-8 space-y-4">
