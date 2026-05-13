@@ -88,6 +88,7 @@ export default function AdminNotificationsPage() {
       const result = (await response.json()) as {
         error?: string;
         sent?: number;
+        failed?: number;
         message?: string;
       };
 
@@ -97,7 +98,7 @@ export default function AdminNotificationsPage() {
 
       setStatusMessage(
         result.sent
-          ? `Live alert sent to website visitors and ${result.sent} subscribed device(s).`
+          ? `Live update sent on website and SMS sent to ${result.sent} player phone number(s).${result.failed ? ` ${result.failed} failed.` : ""}`
           : result.message || "Live announcement sent to website visitors."
       );
       setTitle("");
@@ -197,7 +198,7 @@ export default function AdminNotificationsPage() {
           Send Live Update
         </h1>
         <p className="mt-3 text-sm leading-7 text-gray-300 md:text-base">
-          Use this page for website updates. If you want to message players directly, use the SMS draft button to open your phone&apos;s Messages app with the player numbers and update text filled in.
+          Use this page for website updates and direct SMS to player phone numbers stored in the player list.
         </p>
 
         <div className="mt-8 space-y-4">
@@ -231,7 +232,7 @@ export default function AdminNotificationsPage() {
             disabled={sending}
             className="w-full rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 py-3 font-semibold text-black transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {sending ? "Working..." : "Send Website Update"}
+            {sending ? "Working..." : "Send Website Update + SMS"}
           </button>
 
           <button
