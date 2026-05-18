@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   getGoogleAccessToken,
   getPlayerPhoneNumbers,
-  sendSmsMessage,
-} from "@/lib/serverSms";
+  sendMsg91Sms,
+} from "@/lib/serverMsg91";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Naags@3570";
 
@@ -39,25 +39,17 @@ export async function POST(request: NextRequest) {
     }
 
     const targetLink = link?.trim() || "https://bpl2026.in/";
-    const messageBody = [title.trim(), body.trim(), targetLink]
-      .filter(Boolean)
-      .join("\n\n");
-    const settled = await Promise.allSettled(
-      phoneNumbers.map((phoneNumber) =>
-        sendSmsMessage({
-          to: phoneNumber,
-          body: messageBody,
-        })
-      )
-    );
 
-    const sent = settled.filter((result) => result.status === "fulfilled").length;
-    const failed = settled.length - sent;
+    await sendMsg91Sms({
+      phoneNumbers,
+      title: title.trim(),
+      body: body.trim(),
+      link: targetLink,
+    });
 
     return NextResponse.json({
       ok: true,
-      sent,
-      failed,
+      sent: phoneNumbers.length,
     });
   } catch (error) {
     console.error(error);
@@ -66,7 +58,7 @@ export async function POST(request: NextRequest) {
         error:
           error instanceof Error
             ? error.message
-            : "Unable to send SMS notification.",
+            : "Unable to send MSG91 SMS notification.",
       },
       { status: 500 }
     );

@@ -2,17 +2,7 @@
 
 import { useState } from "react";
 import { db } from "@/lib/firebase";
-import {
-  collection,
-  doc,
-  getDocs,
-  serverTimestamp,
-  setDoc,
-} from "firebase/firestore";
-
-type PlayerRecord = {
-  phone?: string;
-};
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 export default function AdminNotificationsPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -25,16 +15,6 @@ export default function AdminNotificationsPage() {
   const [version, setVersion] = useState(Date.now());
 
   const ADMIN_PASSWORD = "Naags@3570";
-
-  const normalizePhoneNumber = (value: string) => value.replace(/[^\d+]/g, "");
-
-  const getSmsSeparator = () => {
-    if (typeof navigator === "undefined") {
-      return ",";
-    }
-
-    return /iPhone|iPad|iPod|Mac/i.test(navigator.userAgent) ? ";" : ",";
-  };
 
   const handleLogin = () => {
     if (password === ADMIN_PASSWORD) {
@@ -88,17 +68,16 @@ export default function AdminNotificationsPage() {
       const result = (await response.json()) as {
         error?: string;
         sent?: number;
-        failed?: number;
         message?: string;
       };
 
       if (!response.ok) {
-        throw new Error(result.error || "Unable to send phone notifications.");
+        throw new Error(result.error || "Unable to send MSG91 SMS.");
       }
 
       setStatusMessage(
         result.sent
-          ? `Live update sent on website and SMS sent to ${result.sent} player phone number(s).${result.failed ? ` ${result.failed} failed.` : ""}`
+          ? `Live update sent on website and MSG91 SMS sent to ${result.sent} player number(s).`
           : result.message || "Live announcement sent to website visitors."
       );
       setTitle("");
@@ -108,54 +87,6 @@ export default function AdminNotificationsPage() {
       console.error(error);
       setStatusMessage(
         error instanceof Error ? error.message : "Unable to send notification."
-      );
-    } finally {
-      setSending(false);
-    }
-  };
-
-  const handleOpenSmsDraft = async () => {
-    if (!title.trim() || !body.trim()) {
-      setStatusMessage("Title and body are required.");
-      return;
-    }
-
-    setSending(true);
-    setStatusMessage("");
-
-    try {
-      const snapshot = await getDocs(collection(db, "players"));
-      const phoneNumbers = Array.from(
-        new Set(
-          snapshot.docs
-            .map((playerDoc) => {
-              const data = playerDoc.data() as PlayerRecord;
-              return normalizePhoneNumber(data.phone || "");
-            })
-            .filter(Boolean)
-        )
-      );
-
-      if (!phoneNumbers.length) {
-        setStatusMessage("No player phone numbers found.");
-        return;
-      }
-
-      const message = [title.trim(), body.trim(), link.trim()].filter(Boolean).join(
-        "\n\n"
-      );
-      const smsHref = `sms:${phoneNumbers.join(
-        getSmsSeparator()
-      )}?body=${encodeURIComponent(message)}`;
-
-      window.location.href = smsHref;
-      setStatusMessage(
-        `Opened SMS draft for ${phoneNumbers.length} player number(s).`
-      );
-    } catch (error) {
-      console.error(error);
-      setStatusMessage(
-        error instanceof Error ? error.message : "Unable to open SMS draft."
       );
     } finally {
       setSending(false);
@@ -198,7 +129,7 @@ export default function AdminNotificationsPage() {
           Send Live Update
         </h1>
         <p className="mt-3 text-sm leading-7 text-gray-300 md:text-base">
-          Use this page for website updates and direct SMS to player phone numbers stored in the player list.
+          Use this page whenever you publish a new update, gallery item, player reveal, or match announcement. People currently viewing the website will see a floating update message, and player phone numbers can receive MSG91 SMS when the provider is configured.
         </p>
 
         <div className="mt-8 space-y-4">
@@ -232,16 +163,7 @@ export default function AdminNotificationsPage() {
             disabled={sending}
             className="w-full rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 py-3 font-semibold text-black transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {sending ? "Working..." : "Send Website Update + SMS"}
-          </button>
-
-          <button
-            type="button"
-            onClick={handleOpenSmsDraft}
-            disabled={sending}
-            className="w-full rounded-xl border border-cyan-400/30 bg-cyan-400/10 py-3 font-semibold text-cyan-200 transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            {sending ? "Working..." : "Open SMS Draft For Players"}
+            {sending ? "Sending..." : "Send Live Update + SMS"}
           </button>
 
           {statusMessage && (

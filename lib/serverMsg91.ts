@@ -7,11 +7,12 @@ const FIREBASE_PRIVATE_KEY = process.env.FIREBASE_PRIVATE_KEY?.replace(
   /\\n/g,
   "\n"
 );
-const SMS_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
-const SMS_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
-const SMS_FROM_NUMBER = process.env.TWILIO_PHONE_NUMBER;
-const SMS_DEFAULT_COUNTRY_CODE =
-  process.env.SMS_DEFAULT_COUNTRY_CODE || "+91";
+
+const MSG91_AUTH_KEY = process.env.MSG91_AUTH_KEY;
+const MSG91_FLOW_ID = process.env.MSG91_FLOW_ID;
+const MSG91_SENDER_ID = process.env.MSG91_SENDER_ID;
+const MSG91_ROUTE = process.env.MSG91_ROUTE || "4";
+const MSG91_COUNTRY = process.env.MSG91_COUNTRY || "91";
 
 const base64UrlEncode = (input: string | Buffer) =>
   Buffer.from(input)
@@ -71,30 +72,21 @@ export const getGoogleAccessToken = async () => {
   return data.access_token;
 };
 
-const normalizePhoneNumber = (value: string) => value.replace(/[^\d+]/g, "");
+const normalizePhoneNumber = (value: string) =>
+  value.replace(/[^\d]/g, "").replace(/^0+/, "");
 
-const formatPhoneNumber = (value: string) => {
-  const cleaned = normalizePhoneNumber(value);
+const formatMsg91Mobile = (value: string) => {
+  const normalized = normalizePhoneNumber(value);
 
-  if (!cleaned) {
-    return null;
+  if (!normalized) {
+    return "";
   }
 
-  if (cleaned.startsWith("+")) {
-    return cleaned;
+  if (normalized.startsWith(MSG91_COUNTRY)) {
+    return normalized;
   }
 
-  if (cleaned.startsWith("00")) {
-    return `+${cleaned.slice(2)}`;
-  }
-
-  if (cleaned.length === 10) {
-    return `${SMS_DEFAULT_COUNTRY_CODE}${cleaned}`;
-  }
-
-  return cleaned.startsWith("91") && cleaned.length === 12
-    ? `+${cleaned}`
-    : `${SMS_DEFAULT_COUNTRY_CODE}${cleaned}`;
+  return `${MSG91_COUNTRY}${normalized}`;
 };
 
 export const getPlayerPhoneNumbers = async (accessToken: string) => {
@@ -128,46 +120,86 @@ export const getPlayerPhoneNumbers = async (accessToken: string) => {
     new Set(
       (data.documents || [])
         .map((document) => document.fields?.phone?.stringValue || "")
-        .map(formatPhoneNumber)
-        .filter((phone): phone is string => Boolean(phone))
+        .map(normalizePhoneNumber)
+        .filter(Boolean)
     )
   );
 };
 
-export const sendSmsMessage = async ({
-  to,
-  body,
-}: {
-  to: string;
-  body: string;
-}) => {
-  if (!SMS_ACCOUNT_SID || !SMS_AUTH_TOKEN || !SMS_FROM_NUMBER) {
-    throw new Error(
-      "Missing TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, or TWILIO_PHONE_NUMBER."
-    );
+const assertMsg91Config = () => {
+  if (!MSG91_AUTH_KEY) {
+    throw new Error("Missing MSG91_AUTH_KEY.");
   }
 
-  const endpoint = `https://api.twilio.com/2010-04-01/Accounts/${SMS_ACCOUNT_SID}/Messages.json`;
-  const credentials = Buffer.from(
-    `${SMS_ACCOUNT_SID}:${SMS_AUTH_TOKEN}`
-  ).toString("base64");
-  const payload = new URLSearchParams({
-    To: to,
-    From: SMS_FROM_NUMBER,
-    Body: body,
-  });
+  if (!MSG91_FLOW_ID && !MSG91_SENDER_ID) {
+    throw new Error("Missing MSG91_FLOW_ID or MSG91_SENDER_ID.");
+  }
+};
 
-  const response = await fetch(endpoint, {
+export const sendMsg91Sms = async ({
+  phoneNumbers,
+  title,
+  body,
+  link,
+}: {
+  phoneNumbers: string[];
+  title: string;
+  body: string;
+  link: string;
+}) => {
+  assertMsg91Config();
+
+  if (!phoneNumbers.length) {
+    return;
+  }
+
+  if (MSG91_FLOW_ID) {
+    const response = await fetch("https://api.msg91.com/api/v5/flow/", {
+      method: "POST",
+      headers: {
+        authkey: MSG91_AUTH_KEY as string,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        flow_id: MSG91_FLOW_ID,
+        recipients: phoneNumbers.map((mobile) => ({
+          mobiles: formatMsg91Mobile(mobile),
+          title,
+          body,
+          link,
+        })),
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`MSG91 flow send failed (${response.status}): ${errorText}`);
+    }
+
+    return;
+  }
+
+  const response = await fetch("https://api.msg91.com/api/v2/sendsms", {
     method: "POST",
     headers: {
-      Authorization: `Basic ${credentials}`,
-      "Content-Type": "application/x-www-form-urlencoded",
+      authkey: MSG91_AUTH_KEY as string,
+      "Content-Type": "application/json",
     },
-    body: payload,
+    body: JSON.stringify({
+      sender: MSG91_SENDER_ID,
+      route: MSG91_ROUTE,
+      country: MSG91_COUNTRY,
+      sms: [
+        {
+          message: [title, body, link].filter(Boolean).join("\n\n"),
+          to: phoneNumbers.map(formatMsg91Mobile),
+        },
+      ],
+    }),
   });
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`SMS send failed (${response.status}): ${errorText}`);
+    throw new Error(`MSG91 SMS send failed (${response.status}): ${errorText}`);
   }
 };
