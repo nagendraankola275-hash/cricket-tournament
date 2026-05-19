@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
@@ -23,6 +23,13 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "BPL Cricket Tournament",
   description: "Official tournament website",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({

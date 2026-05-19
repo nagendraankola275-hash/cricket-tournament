@@ -29,6 +29,7 @@ const teams = [
     logo: "/team4.png",
     owner: "/owner4.png",
     ownerName: "Harsha Gaonkar",
+    ownerClassName: "object-[center_18%]",
   },
 ];
 
@@ -231,7 +232,7 @@ export default function Home() {
                           alt={`${team.name} owner`}
                           width={52}
                           height={52}
-                          className="mb-2 rounded-full border-2 border-yellow-400"
+                          className={`mb-2 rounded-full border-2 border-yellow-400 object-cover ${team.ownerClassName || "object-center"}`}
                         />
                         <p className="text-sm font-semibold text-white">
                           {team.name}
@@ -354,7 +355,7 @@ export default function Home() {
                       alt={`${team.name} owner`}
                       width={68}
                       height={68}
-                      className="mt-3 h-[68px] w-[68px] rounded-full border-2 border-yellow-400 object-cover"
+                      className={`mt-3 h-[68px] w-[68px] rounded-full border-2 border-yellow-400 object-cover ${team.ownerClassName || "object-center"}`}
                     />
 
                     <p className="mt-3 text-sm font-medium leading-6 text-gray-200">
