@@ -78,10 +78,11 @@ const sponsors = [
 
 const reelTeams = [...teams, ...teams];
 const reelSponsors = [...sponsors, ...sponsors];
+const COUNTDOWN_TARGET = "2026-05-31T07:30:00+05:30";
 
 export default function Home() {
   const getTimeLeft = () => {
-    const targetDate = new Date("2026-05-31T00:00:00");
+    const targetDate = new Date(COUNTDOWN_TARGET);
     const now = new Date();
     const diff = targetDate.getTime() - now.getTime();
 
