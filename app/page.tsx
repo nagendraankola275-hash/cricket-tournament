@@ -78,34 +78,36 @@ const sponsors = [
 
 const reelTeams = [...teams, ...teams];
 const reelSponsors = [...sponsors, ...sponsors];
-const COUNTDOWN_TARGET = "2026-05-31T07:30:00+05:30";
+const finalists = [
+  {
+    result: "Winners",
+    teamName: "Vaishya Titans",
+    logo: "/team1.png",
+    ownerName: "Raghav Shetti",
+    captainName: "Harsha S",
+    accentClassName: "text-yellow-300",
+    borderClassName: "border-yellow-300/20",
+    caption:
+      "Congratulations on an outstanding title-winning campaign.",
+  },
+  {
+    result: "Runners-Up",
+    teamName: "Vaishya Power House",
+    logo: "/team4.png",
+    ownerName: "Harsha Gaonkar",
+    captainName: "Vijay Shetti",
+    accentClassName: "text-orange-300",
+    borderClassName: "border-white/10",
+    caption:
+      "Congratulations on a brilliant tournament and a strong finish in the final.",
+  },
+];
 
 export default function Home() {
-  const getTimeLeft = () => {
-    const targetDate = new Date(COUNTDOWN_TARGET);
-    const now = new Date();
-    const diff = targetDate.getTime() - now.getTime();
-
-    if (diff <= 0) return { d: 0, h: 0, m: 0, s: 0 };
-
-    return {
-      d: Math.floor(diff / (1000 * 60 * 60 * 24)),
-      h: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-      m: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-      s: Math.floor((diff % (1000 * 60)) / 1000),
-    };
-  };
-
   const getTouchDeviceState = () =>
     typeof window !== "undefined" &&
     ("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
-  const [timeLeft, setTimeLeft] = useState({
-    d: 0,
-    h: 0,
-    m: 0,
-    s: 0,
-  });
   const [isTouchDevice, setIsTouchDevice] = useState(getTouchDeviceState);
 
   useEffect(() => {
@@ -116,16 +118,6 @@ export default function Home() {
     window.addEventListener("resize", updateViewport);
 
     return () => window.removeEventListener("resize", updateViewport);
-  }, []);
-
-  useEffect(() => {
-    const update = () => {
-      setTimeLeft(getTimeLeft());
-    };
-
-    update();
-    const interval = setInterval(update, 1000);
-    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -251,26 +243,68 @@ export default function Home() {
         </div>
 
         <div className="pb-8 w-full flex justify-center px-4">
-          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-12 px-6 py-5 rounded-2xl bg-white/8 backdrop-blur-md border border-white/10 shadow-xl">
-            {[
-              { value: timeLeft.d, label: "DAYS" },
-              { value: String(timeLeft.h).padStart(2, "0"), label: "HRS" },
-              { value: String(timeLeft.m).padStart(2, "0"), label: "MIN" },
-              { value: String(timeLeft.s).padStart(2, "0"), label: "SEC" },
-            ].map((item, i) => (
-              <div key={i} className="text-center">
-                <div className="w-14 h-14 md:w-20 md:h-20 rounded-xl bg-black/80 flex items-center justify-center text-white text-lg md:text-3xl font-bold">
-                  {item.value}
+          <div className="w-full max-w-5xl rounded-[30px] border border-yellow-400/20 bg-white/8 px-6 py-6 text-center backdrop-blur-md shadow-xl md:px-10 md:py-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-yellow-300/90">
+              Grand Finale Result
+            </p>
+            <h3 className="mt-3 text-2xl font-extrabold text-white md:text-4xl">
+              Congratulations to Both Finalists
+            </h3>
+            <p className="mt-3 text-sm text-gray-300 md:text-base">
+              Vaishya Titans are the champions of Bangalore Premier League 2026,
+              and Vaishya Power House finish the season as proud runners-up.
+            </p>
+
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {finalists.map((finalist) => (
+                <div
+                  key={finalist.teamName}
+                  className={`rounded-[24px] border ${finalist.borderClassName} bg-[#101722]/88 p-5 text-left`}
+                >
+                  <p
+                    className={`text-xs font-semibold uppercase tracking-[0.28em] ${finalist.accentClassName}`}
+                  >
+                    {finalist.result}
+                  </p>
+
+                  <div className="mt-4 flex flex-col gap-5 sm:flex-row sm:items-start">
+                    <Image
+                      src={finalist.logo}
+                      alt={`${finalist.teamName} logo`}
+                      width={88}
+                      height={88}
+                      className="h-[88px] w-[88px] object-contain"
+                    />
+
+                    <div className="grid gap-3 rounded-[20px] border border-white/10 bg-white/4 px-4 py-3 sm:min-w-[220px]">
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gray-400">
+                          Owner
+                        </p>
+                        <p className="mt-1 text-sm font-semibold text-white">
+                          {finalist.ownerName}
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gray-400">
+                          Captain
+                        </p>
+                        <p className="mt-1 text-sm font-semibold text-white">
+                          {finalist.captainName}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <h4 className="mt-5 text-2xl font-bold text-white">
+                    {finalist.teamName}
+                  </h4>
+                  <p className="mt-2 text-sm leading-6 text-gray-300">
+                    {finalist.caption}
+                  </p>
                 </div>
-                <p className="text-xs text-gray-300 mt-2">{item.label}</p>
-              </div>
-            ))}
-
-            <div className="hidden md:block h-14 w-[2px] bg-gradient-to-b from-yellow-400 via-orange-500 to-yellow-400" />
-
-            <div className="text-center md:text-left">
-              <p className="text-xs text-gray-300 uppercase">Event Date</p>
-              <p className="text-xl font-bold text-white">31 MAY 2026</p>
+              ))}
             </div>
           </div>
         </div>
