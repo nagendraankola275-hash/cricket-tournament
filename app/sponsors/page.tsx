@@ -7,18 +7,21 @@ const sponsor1Image = "/sponsor1.png?v=20260507-1809";
 
 const sponsors = [
   {
+    id: "food-sponsor",
     image: sponsor1Image,
     title: "Food Sponsor",
     description: "Food sponsored by D N Shetti, Sadashivgad, Karwar.",
     imageClassName: "object-[center_18%]",
   },
   {
+    id: "trophy-sponsor",
     image: "/sponsor2.png",
     title: "Trophy Sponsor",
     description: "Trophy sponsored by Geetha Shetti, Mundgod.",
     imageClassName: "object-center",
   },
   {
+    id: "second-cash-prize-sponsor",
     image: "/sponsor3.png",
     title: "Cash Prize Sponsor",
     description:
@@ -26,6 +29,7 @@ const sponsors = [
     imageClassName: "object-center",
   },
   {
+    id: "special-awards-sponsor",
     image: "/sponsor4.png",
     title: "Special Awards Sponsor",
     description:
@@ -33,10 +37,19 @@ const sponsors = [
     imageClassName: "object-center",
   },
   {
+    id: "cricket-ground-sponsor",
     image: "/sponsor5.png",
     title: "Cricket Ground Sponsor",
     description: "Cricket Ground Sponsored by Raghavendra Shetti.",
     imageClassName: "object-[center_14%] md:object-[center_22%]",
+  },
+  {
+    id: "first-cash-prize-sponsor",
+    image: "/sponsor6.png",
+    title: "1st Cash Prize Sponsor",
+    description:
+      "1st cash prize provided by Dr Vinay Kumar, Journalist, Bangalore.",
+    imageClassName: "object-center",
   },
 ];
 
@@ -62,7 +75,7 @@ export default function SponsorsPage() {
         <div className="mt-12 grid gap-6 md:grid-cols-2">
           {sponsors.map((sponsor) => (
             <div
-              key={sponsor.title}
+              key={sponsor.id}
               className="flex flex-col gap-5 rounded-[28px] border border-white/10 bg-white/5 p-5 backdrop-blur-md shadow-xl md:flex-row"
             >
               <Image

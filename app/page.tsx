@@ -37,6 +37,7 @@ const sponsor1Image = "/sponsor1.png?v=20260507-1809";
 
 const sponsors = [
   {
+    id: "food-sponsor",
     image: sponsor1Image,
     title: "Food Sponsor",
     description: "Food sponsored by D N Shetti, Sadashivgad, Karwar.",
@@ -44,6 +45,7 @@ const sponsors = [
     reelImageClassName: "object-[center_18%]",
   },
   {
+    id: "trophy-sponsor",
     image: "/sponsor2.png",
     title: "Trophy Sponsor",
     description: "Trophy sponsored by Geetha Shetti, Mundgod.",
@@ -51,6 +53,7 @@ const sponsors = [
     reelImageClassName: "object-center",
   },
   {
+    id: "second-cash-prize-sponsor",
     image: "/sponsor3.png",
     title: "Cash Prize Sponsor",
     description:
@@ -59,6 +62,7 @@ const sponsors = [
     reelImageClassName: "object-center",
   },
   {
+    id: "special-awards-sponsor",
     image: "/sponsor4.png",
     title: "Special Awards Sponsor",
     description:
@@ -67,12 +71,22 @@ const sponsors = [
     reelImageClassName: "object-center",
   },
   {
+    id: "cricket-ground-sponsor",
     image: "/sponsor5.png",
     title: "Cricket Ground Sponsor",
     description: "Cricket Ground Sponsored by Raghavendra Shetti.",
     imageClassName: "object-[center_14%] md:object-[center_22%]",
     reelImageClassName: "object-top",
     reelImageStyle: { objectPosition: "center 6%" },
+  },
+  {
+    id: "first-cash-prize-sponsor",
+    image: "/sponsor6.png",
+    title: "1st Cash Prize Sponsor",
+    description:
+      "1st cash prize provided by Dr Vinay Kumar, Journalist, Bangalore.",
+    imageClassName: "object-center",
+    reelImageClassName: "object-center",
   },
 ];
 
